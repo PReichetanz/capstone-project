@@ -4,9 +4,9 @@ import styled from 'styled-components';
 type FormProps = {
   nameLabel: string;
   evaluationLabel: string;
-  name: string;
-  evaluation: string;
-  onSubmit: () => void;
+  name?: string;
+  evaluation?: string;
+  onSubmitForm: () => void;
 };
 
 export default function Form({
@@ -14,10 +14,17 @@ export default function Form({
   evaluationLabel,
   name,
   evaluation,
-  onSubmit,
+  onSubmitForm,
 }: FormProps): JSX.Element {
+  function handleSubmit(event: React.FormEvent<HTMLInputElement>) {
+    event.preventDefault();
+    onSubmitForm();
+    console.log(name);
+    console.log(evaluation);
+  }
+
   return (
-    <FormContainer onSubmit={onSubmit}>
+    <FormContainer onSubmit={() => handleSubmit}>
       <label htmlFor="name">{nameLabel}:</label>
       <Input
         type="text"
@@ -27,6 +34,7 @@ export default function Form({
         value={name}
         required
       />
+      <span>Bitte geben Sie einen Namen ein.</span>
       <label htmlFor="evaluation">{evaluationLabel}:</label>
       <Textarea
         id="evaluation"
@@ -53,6 +61,9 @@ const FormContainer = styled.form`
 
 const Input = styled.input`
   font-family: inherit;
+  :required {
+    border: 2px solid var(--color-tertiary);
+  }
 `;
 
 const Textarea = styled.textarea`
