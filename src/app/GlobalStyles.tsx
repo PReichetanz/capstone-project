@@ -12,6 +12,7 @@ const GlobalStyles = createGlobalStyle`
         --color-button: #f9bc60;
         --color-buttonText: #001e1d;
         --color-stroke: #001e1d;
+        --color-tertiary: #e16162;
     }
 
     body {
