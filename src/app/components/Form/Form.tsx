@@ -1,16 +1,39 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function Form(): JSX.Element {
+type FormProps = {
+  nameLabel: string;
+  evaluationLabel: string;
+  name: string;
+  evaluation: string;
+  onSubmit: () => void;
+};
+
+export default function Form({
+  nameLabel,
+  evaluationLabel,
+  name,
+  evaluation,
+  onSubmit,
+}: FormProps): JSX.Element {
   return (
-    <FormContainer>
-      <label htmlFor="name">Name des Schülers:</label>
-      <input type="text" id="name" placeholder="Lena Beispiel" required />
-      <label htmlFor="evaluation">Worturteil:</label>
-      <textarea
+    <FormContainer onSubmit={onSubmit}>
+      <label htmlFor="name">{nameLabel}:</label>
+      <Input
+        type="text"
+        id="name"
+        placeholder="Lena Beispiel"
+        onChange={(event) => event.target.value}
+        value={name}
+        required
+      />
+      <label htmlFor="evaluation">{evaluationLabel}:</label>
+      <Textarea
         id="evaluation"
         rows={3}
         placeholder="Lena arbeitet häufig gut mit."
+        onChange={(event) => event.target.value}
+        value={evaluation}
         required
       />
       <SubmitButton type="submit">Hinzufügen</SubmitButton>
@@ -26,6 +49,14 @@ const FormContainer = styled.form`
   gap: 0.5rem;
   padding: 0.5rem;
   font-weight: 700;
+`;
+
+const Input = styled.input`
+  font-family: inherit;
+`;
+
+const Textarea = styled.textarea`
+  font-family: inherit;
 `;
 
 const SubmitButton = styled.button`
