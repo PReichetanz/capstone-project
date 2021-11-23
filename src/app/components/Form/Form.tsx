@@ -1,50 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 type FormProps = {
   nameLabel: string;
   evaluationLabel: string;
-  name?: string;
-  evaluation?: string;
-  onSubmitForm: () => void;
+  onSubmit: (pupil: { name: string; evaluation: string }) => void;
+  submitted: boolean;
 };
 
 export default function Form({
   nameLabel,
   evaluationLabel,
-  name,
-  evaluation,
-  onSubmitForm,
+  onSubmit,
 }: FormProps): JSX.Element {
-  function handleSubmit(event: React.FormEvent<HTMLInputElement>) {
+  const [name, setName] = useState('');
+  const [evaluation, setEvaluation] = useState('');
+  const [nameSubmitted, setNameSubmitted] = useState(false);
+  const [evaluationSubmitted, setEvaluationSubmitted] = useState(false);
+  console.log(`nameSubmitted: ${nameSubmitted}`);
+  console.log(`evaluationSubmitted: ${evaluationSubmitted}`);
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    onSubmitForm();
-    console.log(name);
-    console.log(evaluation);
+
+    if (name === '') {
+      setNameSubmitted(!nameSubmitted);
+      return;
+    } else if (evaluation === '') {
+      setEvaluationSubmitted(!evaluationSubmitted);
+      return;
+    } else {
+      onSubmit({ name, evaluation });
+      setNameSubmitted(false);
+      setEvaluationSubmitted(false);
+      setName('');
+      setEvaluation('');
+    }
   }
 
   return (
-    <FormContainer onSubmit={() => handleSubmit}>
+    <FormContainer onSubmit={handleSubmit}>
       <label htmlFor="name">{nameLabel}:</label>
       <Input
         type="text"
         id="name"
         placeholder="Lena Beispiel"
-        onChange={(event) => event.target.value}
+        onChange={(event) => setName(event.target.value)}
         value={name}
-        required
+        submitted={nameSubmitted}
       />
-      <span>Bitte geben Sie einen Namen ein.</span>
+      {nameSubmitted && name === '' ? (
+        <SubmitWarning>Bitte geben Sie einen Namen ein.</SubmitWarning>
+      ) : (
+        ''
+      )}
       <label htmlFor="evaluation">{evaluationLabel}:</label>
       <Textarea
         id="evaluation"
         rows={3}
         placeholder="Lena arbeitet häufig gut mit."
-        onChange={(event) => event.target.value}
+        onChange={(event) => setEvaluation(event.target.value)}
         value={evaluation}
-        required
+        submitted={evaluationSubmitted}
       />
-      <SubmitButton type="submit">Hinzufügen</SubmitButton>
+      {evaluationSubmitted && evaluation === '' ? (
+        <SubmitWarning>Bitte geben Sie eine Beurteilung ein.</SubmitWarning>
+      ) : (
+        ''
+      )}
+      <SubmitButton type="submit" value="Hinzufügen" />
     </FormContainer>
   );
 }
@@ -59,18 +83,24 @@ const FormContainer = styled.form`
   font-weight: 700;
 `;
 
-const Input = styled.input`
+const Input = styled.input<Partial<FormProps>>`
   font-family: inherit;
-  :required {
-    border: 2px solid var(--color-tertiary);
-  }
+  outline: ${(props) =>
+    props.submitted ? '2px solid var(--color-tertiary)' : ''};
 `;
 
-const Textarea = styled.textarea`
+const Textarea = styled.textarea<Partial<FormProps>>`
   font-family: inherit;
+  outline: ${(props) =>
+    props.submitted ? '2px solid var(--color-tertiary)' : ''};
 `;
 
-const SubmitButton = styled.button`
+const SubmitWarning = styled.span`
+  color: var(--color-tertiary);
+  text-align: center;
+`;
+
+const SubmitButton = styled.input`
   background: var(--color-button);
   border-radius: 0.5rem;
   border: 1px solid var(--color-stroke);
