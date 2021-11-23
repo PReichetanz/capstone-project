@@ -11,9 +11,8 @@ export const regular = (): JSX.Element => (
   <Form
     nameLabel="Name des Schülers"
     evaluationLabel="Worturteil"
-    onSubmitForm={() => console.log('submitted')}
-    name="Max Musterjunge"
-    evaluation="Max ist immer nett."
+    onSubmit={() => console.log('submitted')}
+    submitted={false}
   />
 );
 
@@ -21,8 +20,7 @@ export const empty = (): JSX.Element => (
   <Form
     nameLabel="Name des Schülers"
     evaluationLabel="Worturteil"
-    onSubmitForm={() => console.log('submitted')}
-    name=""
-    evaluation=""
+    onSubmit={() => console.log('submitted')}
+    submitted={false}
   />
 );
