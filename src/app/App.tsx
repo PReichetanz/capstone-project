@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Card from './components/Card/Card';
 import Form from './components/Form/Form';
 
 type Pupil = {
@@ -28,6 +29,9 @@ function App(): JSX.Element {
         onSubmit={handleFormSubmit}
         submitted={false}
       />
+      {pupils.map((pupil, key) => (
+        <Card pupil={pupil} key={`${pupil.name}-${key}`} />
+      ))}
     </>
   );
 }
