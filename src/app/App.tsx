@@ -4,7 +4,7 @@ import Form from './components/Form/Form';
 
 type Pupil = {
   name: string;
-  evaluation: string;
+  evaluations: string[];
 };
 
 function App(): JSX.Element {
@@ -16,7 +16,7 @@ function App(): JSX.Element {
       ...pupils,
       {
         name: pupil.name,
-        evaluation: pupil.evaluation,
+        evaluations: [pupil.evaluation],
       },
     ]);
   }

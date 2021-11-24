@@ -5,18 +5,20 @@ import RoundActionButton from '../RoundActionButton/RoundActionButton';
 type CardProps = {
   pupil: {
     name: string;
-    evaluation: string;
+    evaluations: string[];
   };
   deleteCard: (name: string) => void;
 };
 
 export default function Card({ pupil, deleteCard }: CardProps): JSX.Element {
-  const { name, evaluation } = pupil;
+  const { name, evaluations } = pupil;
   return (
     <Container>
       <Heading>{name}</Heading>
       <RoundActionButton children="X" handleDelete={() => deleteCard(name)} />
-      <Evaluation>{evaluation}</Evaluation>
+      {evaluations.map((evaluation, key) => (
+        <Evaluation key={`${evaluation}-${key}`}>{evaluation}</Evaluation>
+      ))}
     </Container>
   );
 }
