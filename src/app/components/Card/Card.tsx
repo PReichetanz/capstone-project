@@ -7,14 +7,15 @@ type CardProps = {
     name: string;
     evaluation: string;
   };
+  deleteCard: (name: string) => void;
 };
 
-export default function Card({ pupil }: CardProps): JSX.Element {
+export default function Card({ pupil, deleteCard }: CardProps): JSX.Element {
   const { name, evaluation } = pupil;
   return (
     <Container>
       <Heading>{name}</Heading>
-      <RoundActionButton children="X" handleDelete={() => console.log('')} />
+      <RoundActionButton children="X" handleDelete={() => deleteCard(name)} />
       <Evaluation>{evaluation}</Evaluation>
     </Container>
   );
@@ -26,6 +27,9 @@ const Container = styled.article`
   border-radius: 0.5rem;
   width: 90%;
   margin: auto;
+  & + & {
+    margin-top: 1rem;
+  }
 `;
 
 const Heading = styled.h1`

@@ -21,6 +21,12 @@ function App(): JSX.Element {
     ]);
   }
 
+  function deletePupil(name: string) {
+    const newPupilsList = pupils.filter((pupil) => pupil.name !== name);
+    setPupils(newPupilsList);
+    console.log(newPupilsList);
+  }
+
   return (
     <>
       <Form
@@ -30,7 +36,11 @@ function App(): JSX.Element {
         submitted={false}
       />
       {pupils.map((pupil, key) => (
-        <Card pupil={pupil} key={`${pupil.name}-${key}`} />
+        <Card
+          pupil={pupil}
+          key={`${pupil.name}-${key}`}
+          deleteCard={deletePupil}
+        />
       ))}
     </>
   );
