@@ -15,24 +15,17 @@ export default function Form({
 }: FormProps): JSX.Element {
   const [name, setName] = useState('');
   const [evaluation, setEvaluation] = useState('');
-  const [nameSubmitted, setNameSubmitted] = useState(false);
-  const [evaluationSubmitted, setEvaluationSubmitted] = useState(false);
-  console.log(`nameSubmitted: ${nameSubmitted}`);
-  console.log(`evaluationSubmitted: ${evaluationSubmitted}`);
+  const [inputError, setInputError] = useState(false);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (name === '') {
-      setNameSubmitted(!nameSubmitted);
-      return;
-    } else if (evaluation === '') {
-      setEvaluationSubmitted(!evaluationSubmitted);
+    if (name === '' || evaluation === '') {
+      setInputError(true);
       return;
     } else {
       onSubmit({ name, evaluation });
-      setNameSubmitted(false);
-      setEvaluationSubmitted(false);
+      setInputError(false);
       setName('');
       setEvaluation('');
     }
@@ -47,12 +40,10 @@ export default function Form({
         placeholder="Lena Beispiel"
         onChange={(event) => setName(event.target.value)}
         value={name}
-        submitted={nameSubmitted}
+        submitted={inputError}
       />
-      {nameSubmitted && name === '' ? (
+      {inputError && name === '' && (
         <SubmitWarning>Bitte geben Sie einen Namen ein.</SubmitWarning>
-      ) : (
-        ''
       )}
       <label htmlFor="evaluation">{evaluationLabel}:</label>
       <Textarea
@@ -61,12 +52,10 @@ export default function Form({
         placeholder="Lena arbeitet häufig gut mit."
         onChange={(event) => setEvaluation(event.target.value)}
         value={evaluation}
-        submitted={evaluationSubmitted}
+        submitted={inputError}
       />
-      {evaluationSubmitted && evaluation === '' ? (
+      {inputError && evaluation === '' && (
         <SubmitWarning>Bitte geben Sie eine Beurteilung ein.</SubmitWarning>
-      ) : (
-        ''
       )}
       <SubmitButton type="submit" value="Hinzufügen" />
     </FormContainer>
@@ -86,13 +75,17 @@ const FormContainer = styled.form`
 const Input = styled.input<Partial<FormProps>>`
   font-family: inherit;
   outline: ${(props) =>
-    props.submitted ? '2px solid var(--color-tertiary)' : ''};
+    props.submitted && props.value === ''
+      ? '2px solid var(--color-tertiary)'
+      : ''};
 `;
 
 const Textarea = styled.textarea<Partial<FormProps>>`
   font-family: inherit;
   outline: ${(props) =>
-    props.submitted ? '2px solid var(--color-tertiary)' : ''};
+    props.submitted && props.value === ''
+      ? '2px solid var(--color-tertiary)'
+      : ''};
 `;
 
 const SubmitWarning = styled.span`
