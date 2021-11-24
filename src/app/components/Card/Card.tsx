@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import RoundActionButton from '../RoundActionButton/RoundActionButton';
 
 type CardProps = {
   pupil: {
@@ -13,12 +14,14 @@ export default function Card({ pupil }: CardProps): JSX.Element {
   return (
     <Container>
       <Heading>{name}</Heading>
+      <RoundActionButton children="X" handleDelete={() => console.log('')} />
       <Evaluation>{evaluation}</Evaluation>
     </Container>
   );
 }
 
 const Container = styled.article`
+  position: relative;
   background: var(--color-background-dark);
   border-radius: 0.5rem;
   width: 90%;
