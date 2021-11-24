@@ -1,18 +1,19 @@
 import React from 'react';
+import type { ReactNode } from 'react';
 import styled from 'styled-components';
 
 type DeleteButtonProps = {
   handleDelete: () => void;
-  content: string;
+  children: ReactNode;
 };
 
 export default function DeleteButton({
   handleDelete,
-  content,
+  children,
 }: DeleteButtonProps): JSX.Element {
   return (
     <Container>
-      <Delete onClick={handleDelete}>{content}</Delete>
+      <Button onClick={handleDelete}>{children}</Button>
     </Container>
   );
 }
@@ -33,7 +34,7 @@ const Container = styled.div`
   }
 `;
 
-const Delete = styled.button`
+const Button = styled.button`
   border: none;
   background: inherit;
   color: var(--color-buttonText);
