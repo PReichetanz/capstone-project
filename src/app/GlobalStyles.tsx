@@ -14,6 +14,7 @@ const GlobalStyles = createGlobalStyle`
         --color-buttonText: #001e1d;
         --color-stroke: #001e1d;
         --color-tertiary: #e16162;
+        --color-tertiary-hover: #E77862;
     }
 
     body {
