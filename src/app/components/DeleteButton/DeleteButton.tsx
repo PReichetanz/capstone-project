@@ -10,10 +10,17 @@ export default function DeleteButton({
   handleDelete,
   content,
 }: DeleteButtonProps): JSX.Element {
-  return <Delete onClick={handleDelete}>{content}</Delete>;
+  return (
+    <Container>
+      <Delete onClick={handleDelete}>{content}</Delete>
+    </Container>
+  );
 }
 
-const Delete = styled.button`
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: var(--color-tertiary);
   border-radius: 50%;
   border: 1px solid var(--color-stroke);
@@ -23,6 +30,12 @@ const Delete = styled.button`
   top: 0.25rem;
   &:hover {
     background: var(--color-tertiary-hover);
-    font-weight: 700;
   }
+`;
+
+const Delete = styled.button`
+  border: none;
+  background: inherit;
+  color: var(--color-buttonText);
+  font-weight: 700;
 `;
