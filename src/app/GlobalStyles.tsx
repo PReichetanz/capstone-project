@@ -9,6 +9,7 @@ const GlobalStyles = createGlobalStyle`
         --color-background-dark: #004643;
         --color-background-light: #abd1c6;
         --color-text-dark: #001e1d;
+        --color-text-white: #fffffe;
         --color-button: #f9bc60;
         --color-buttonText: #001e1d;
         --color-stroke: #001e1d;

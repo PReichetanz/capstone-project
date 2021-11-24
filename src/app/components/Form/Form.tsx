@@ -74,6 +74,10 @@ const FormContainer = styled.form`
 
 const Input = styled.input<Partial<FormProps>>`
   font-family: inherit;
+  font-weight: 700;
+  background: var(--color-background-dark);
+  color: var(--color-text-white);
+  padding: 0.5rem;
   outline: ${(props) =>
     props.submitted && props.value === ''
       ? '2px solid var(--color-tertiary)'
@@ -82,6 +86,10 @@ const Input = styled.input<Partial<FormProps>>`
 
 const Textarea = styled.textarea<Partial<FormProps>>`
   font-family: inherit;
+  font-weight: 700;
+  background: var(--color-background-dark);
+  color: var(--color-text-white);
+  padding: 0.5rem;
   outline: ${(props) =>
     props.submitted && props.value === ''
       ? '2px solid var(--color-tertiary)'
