@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 type ButtonProps = {
   children: ReactNode;
-  handleClick: () => void;
+  onClick: () => void;
 };
 
-const MainButton = styled.button<ButtonProps>`
+const Button = styled.button<ButtonProps>`
   background: var(--color-button);
   border-radius: 0.5rem;
   border: 1px solid var(--color-stroke);
@@ -17,4 +17,4 @@ const MainButton = styled.button<ButtonProps>`
   margin: auto;
 `;
 
-export default MainButton;
+export default Button;
