@@ -17,7 +17,6 @@ function App(): JSX.Element {
     if (existingPupil === undefined) {
       return false;
     } else {
-      console.log(existingPupil);
       return existingPupil;
     }
   }
@@ -49,7 +48,6 @@ function App(): JSX.Element {
   function deletePupil(name: string) {
     const newPupilsList = pupils.filter((pupil) => pupil.name !== name);
     setPupils(newPupilsList);
-    console.log(newPupilsList);
   }
 
   return (
