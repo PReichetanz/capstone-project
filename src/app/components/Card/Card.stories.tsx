@@ -3,8 +3,18 @@ import Card from './Card';
 
 const testPupil = {
   name: 'Lena Beispiel',
-  evaluation:
+  evaluations: [
     'Lena ist immer gut vorbereitet und arbeitet häufig aufmerksam mit.',
+  ],
+};
+
+const moreEvaluations = {
+  name: 'Lena Beispiel',
+  evaluations: [
+    'Lena ist immer gut vorbereitet und arbeitet häufig aufmerksam mit.',
+    'Sie verhält sich den Lehrern gegenüber freundlich und zuvorkommend.',
+    'An ihrer Heftführung sollte Lena noch ein wenig feilen, um die Arbeitsmaterialien jederzeit parat zu haben.',
+  ],
 };
 
 export default {
@@ -12,4 +22,10 @@ export default {
   component: Card,
 };
 
-export const regular = (): JSX.Element => <Card pupil={testPupil} />;
+export const regular = (): JSX.Element => (
+  <Card pupil={testPupil} deleteCard={() => console.log('deleted')} />
+);
+
+export const Long = (): JSX.Element => (
+  <Card pupil={moreEvaluations} deleteCard={() => console.log('deleted')} />
+);
