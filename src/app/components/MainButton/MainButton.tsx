@@ -6,13 +6,14 @@ type ButtonProps = {
   children: ReactNode;
   handleClick: () => void;
 };
-function Button({ children, handleClick }: ButtonProps): JSX.Element {
-  return <NewButton onClick={handleClick}>{children}</NewButton>;
+export default function MainButton({
+  children,
+  handleClick,
+}: ButtonProps): JSX.Element {
+  return <Button onClick={handleClick}>{children}</Button>;
 }
 
-export default Button;
-
-const NewButton = styled.button`
+const Button = styled.button`
   background: var(--color-button);
   border-radius: 0.5rem;
   border: 1px solid var(--color-stroke);
