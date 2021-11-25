@@ -13,6 +13,7 @@ export const regular = (): JSX.Element => (
     evaluationLabel="Worturteil"
     onSubmit={() => console.log('submitted')}
     submitted={false}
+    onCancel={() => console.log('canceled!')}
   />
 );
 
@@ -22,5 +23,6 @@ export const empty = (): JSX.Element => (
     evaluationLabel="Worturteil"
     onSubmit={() => console.log('submitted')}
     submitted={false}
+    onCancel={() => console.log('canceled!')}
   />
 );
