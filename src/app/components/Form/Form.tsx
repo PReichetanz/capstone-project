@@ -35,53 +35,66 @@ export default function Form({
   }
 
   return (
-    <FormContainer onSubmit={handleSubmit}>
-      <RoundActionButton
-        children="X"
-        handleClick={() => onCancel()}
-        customStyles={{
-          sizeButton: '1.5rem',
-          topPosition: '0.375rem',
-          rightPosition: '0.5rem',
-        }}
-      />
-      <label htmlFor="name">{nameLabel}:</label>
-      <Input
-        type="text"
-        id="name"
-        placeholder="Lena Beispiel"
-        onChange={(event) => setName(event.target.value)}
-        value={name}
-        submitted={inputError}
-      />
-      {inputError && name === '' && (
-        <SubmitWarning>Bitte geben Sie einen Namen ein.</SubmitWarning>
-      )}
-      <label htmlFor="evaluation">{evaluationLabel}:</label>
-      <Textarea
-        id="evaluation"
-        rows={3}
-        placeholder="Lena arbeitet häufig gut mit."
-        onChange={(event) => setEvaluation(event.target.value)}
-        value={evaluation}
-        submitted={inputError}
-      />
-      {inputError && evaluation === '' && (
-        <SubmitWarning>Bitte geben Sie eine Beurteilung ein.</SubmitWarning>
-      )}
-      <SubmitButton type="submit" value="Hinzufügen" />
-    </FormContainer>
+    <FormWrapper>
+      <FormContainer onSubmit={handleSubmit}>
+        <RoundActionButton
+          children="X"
+          handleClick={() => onCancel()}
+          customStyles={{
+            sizeButton: '1.5rem',
+            topPosition: '0.375rem',
+            rightPosition: '0.5rem',
+          }}
+        />
+        <label htmlFor="name">{nameLabel}:</label>
+        <Input
+          type="text"
+          id="name"
+          placeholder="Lena Beispiel"
+          onChange={(event) => setName(event.target.value)}
+          value={name}
+          submitted={inputError}
+        />
+        {inputError && name === '' && (
+          <SubmitWarning>Bitte geben Sie einen Namen ein.</SubmitWarning>
+        )}
+        <label htmlFor="evaluation">{evaluationLabel}:</label>
+        <Textarea
+          id="evaluation"
+          rows={3}
+          placeholder="Lena arbeitet häufig gut mit."
+          onChange={(event) => setEvaluation(event.target.value)}
+          value={evaluation}
+          submitted={inputError}
+        />
+        {inputError && evaluation === '' && (
+          <SubmitWarning>Bitte geben Sie eine Beurteilung ein.</SubmitWarning>
+        )}
+        <SubmitButton type="submit" value="Hinzufügen" />
+      </FormContainer>
+    </FormWrapper>
   );
 }
 
 const FormContainer = styled.form`
   background: var(--color-background-light);
   color: var(--color-text-dark);
+  border: 1px solid var(--color-stroke);
+  border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.5rem;
   font-weight: 700;
+  position: absolute;
+  z-index: 100;
+  left: 0.6rem;
+  right: 0.6rem;
+  top: 8rem;
+`;
+
+const FormWrapper = styled.div`
+  position: relative;
 `;
 
 const Input = styled.input<Partial<FormProps>>`
