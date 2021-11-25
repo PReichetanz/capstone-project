@@ -1,23 +1,47 @@
 import React, { useState } from 'react';
+import Card from './components/Card/Card';
 import Form from './components/Form/Form';
 
 type Pupil = {
   name: string;
-  evaluation: string;
+  evaluations: string[];
 };
 
 function App(): JSX.Element {
   const [pupils, setPupils] = useState<Pupil[]>([]);
   console.log(pupils);
 
+  function findPupilByName(name: string) {
+    return pupils.find((pupil) => pupil.name === name);
+  }
+
   function handleFormSubmit(pupil: { name: string; evaluation: string }) {
-    setPupils([
-      ...pupils,
-      {
-        name: pupil.name,
-        evaluation: pupil.evaluation,
-      },
-    ]);
+    const existingPupil = findPupilByName(pupil.name);
+    if (existingPupil) {
+      const existingPupilId = pupils.findIndex(
+        (pupil) => pupil.name === existingPupil.name
+      );
+      existingPupil.evaluations = [
+        ...existingPupil.evaluations,
+        pupil.evaluation,
+      ];
+      const newPupils = pupils.slice();
+      newPupils[existingPupilId] = existingPupil;
+      setPupils(newPupils);
+    } else {
+      setPupils([
+        ...pupils,
+        {
+          name: pupil.name,
+          evaluations: [pupil.evaluation],
+        },
+      ]);
+    }
+  }
+
+  function deletePupil(name: string) {
+    const newPupilsList = pupils.filter((pupil) => pupil.name !== name);
+    setPupils(newPupilsList);
   }
 
   return (
@@ -28,6 +52,13 @@ function App(): JSX.Element {
         onSubmit={handleFormSubmit}
         submitted={false}
       />
+      {pupils.map((pupil, key) => (
+        <Card
+          pupil={pupil}
+          key={`${pupil.name}-${key}`}
+          deleteCard={deletePupil}
+        />
+      ))}
     </>
   );
 }
