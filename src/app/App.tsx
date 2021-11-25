@@ -11,18 +11,12 @@ function App(): JSX.Element {
   const [pupils, setPupils] = useState<Pupil[]>([]);
   console.log(pupils);
 
-  function findPupil(pupil: { name: string; evaluation: string }) {
-    const newPupil = pupil;
-    const existingPupil = pupils.find((pupil) => pupil.name === newPupil.name);
-    if (existingPupil === undefined) {
-      return false;
-    } else {
-      return existingPupil;
-    }
+  function findPupilByName(name: string) {
+    return pupils.find((pupil) => pupil.name === name);
   }
 
   function handleFormSubmit(pupil: { name: string; evaluation: string }) {
-    const existingPupil = findPupil(pupil);
+    const existingPupil = findPupilByName(pupil.name);
     if (existingPupil) {
       const existingPupilId = pupils.findIndex(
         (pupil) => pupil.name === existingPupil.name

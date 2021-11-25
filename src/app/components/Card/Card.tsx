@@ -15,7 +15,7 @@ export default function Card({ pupil, deleteCard }: CardProps): JSX.Element {
   return (
     <Container>
       <Heading>{name}</Heading>
-      <RoundActionButton children="X" handleDelete={() => deleteCard(name)} />
+      <RoundActionButton children="X" handleClick={() => deleteCard(name)} />
       {evaluations.map((evaluation, key) => (
         <Evaluation key={`${evaluation}-${key}`}>{evaluation}</Evaluation>
       ))}

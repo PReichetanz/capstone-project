@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import styled from 'styled-components';
 
 type RoundActionButtonProps = {
-  handleDelete: () => void;
+  handleClick: () => void;
   children: ReactNode;
   customStyles?: {
     sizeButton?: string;
@@ -13,14 +13,14 @@ type RoundActionButtonProps = {
 };
 
 export default function RoundActionButton({
-  handleDelete,
+  handleClick,
   children,
   customStyles,
 }: RoundActionButtonProps): JSX.Element {
   return (
     <Button
       customStyles={customStyles ? customStyles : {}}
-      onClick={handleDelete}
+      onClick={handleClick}
     >
       {children}
     </Button>
