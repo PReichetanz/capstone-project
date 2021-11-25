@@ -9,14 +9,14 @@ export default {
 export const DeleteX = (): JSX.Element => (
   <RoundActionButton
     children="X"
-    handleDelete={() => onDelete()}
+    handleClick={() => onDelete()}
   ></RoundActionButton>
 );
 
 export const DeleteMinus = (): JSX.Element => (
   <RoundActionButton
     children="–"
-    handleDelete={() => onDelete()}
+    handleClick={() => onDelete()}
   ></RoundActionButton>
 );
 
