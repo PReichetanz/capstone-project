@@ -6,5 +6,8 @@ export default {
   component: Button,
 };
 
-export const Login = (): JSX.Element => <Button>Login</Button>;
-export const Register = (): JSX.Element => <Button>Register</Button>;
+export const Neu = (): JSX.Element => (
+  <Button handleClick={() => console.log('clicked!')}>
+    Schüler hinzufügen
+  </Button>
+);
