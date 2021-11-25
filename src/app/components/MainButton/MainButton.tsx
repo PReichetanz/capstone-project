@@ -1,19 +1,12 @@
 import type { ReactNode } from 'react';
-import React from 'react';
 import styled from 'styled-components';
 
 type ButtonProps = {
   children: ReactNode;
   handleClick: () => void;
 };
-export default function MainButton({
-  children,
-  handleClick,
-}: ButtonProps): JSX.Element {
-  return <Button onClick={handleClick}>{children}</Button>;
-}
 
-const Button = styled.button`
+const MainButton = styled.button<ButtonProps>`
   background: var(--color-button);
   border-radius: 0.5rem;
   border: 1px solid var(--color-stroke);
@@ -23,3 +16,5 @@ const Button = styled.button`
   width: 90%;
   margin: auto;
 `;
+
+export default MainButton;
