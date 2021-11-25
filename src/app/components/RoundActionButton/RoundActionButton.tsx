@@ -5,34 +5,51 @@ import styled from 'styled-components';
 type RoundActionButtonProps = {
   handleDelete: () => void;
   children: ReactNode;
+  customStyles?: {
+    sizeButton?: string;
+    topPosition?: string;
+    rightPosition?: string;
+  };
 };
 
 export default function RoundActionButton({
   handleDelete,
   children,
+  customStyles,
 }: RoundActionButtonProps): JSX.Element {
-  return <Button onClick={handleDelete}>{children}</Button>;
+  return (
+    <Button
+      customStyles={customStyles ? customStyles : {}}
+      onClick={handleDelete}
+    >
+      {children}
+    </Button>
+  );
 }
 
 interface StylingProps {
-  sizeButton?: string;
-  topPosition?: string;
-  rightPosition?: string;
+  customStyles: {
+    sizeButton?: string;
+    topPosition?: string;
+    rightPosition?: string;
+  };
 }
 
 const Button = styled.button.attrs<StylingProps>((props) => ({
-  sizeButton: props.sizeButton || '2rem',
-  topPosition: props.topPosition || '0.25rem',
-  rightPosition: props.rightPosition || '0.25rem',
+  customStyles: {
+    sizeButton: props.customStyles.sizeButton || '2rem',
+    topPosition: props.customStyles.topPosition || '0.25rem',
+    rightPosition: props.customStyles.rightPosition || '0.25rem',
+  },
 }))`
   position: absolute;
-  right: ${(props: StylingProps) => props.rightPosition};
-  top: ${(props: StylingProps) => props.topPosition};
+  right: ${({ customStyles }: StylingProps) => customStyles.rightPosition};
+  top: ${({ customStyles }: StylingProps) => customStyles.topPosition};
   display: flex;
   justify-content: center;
   align-items: center;
-  width: ${(props: StylingProps) => props.sizeButton};
-  height: ${(props: StylingProps) => props.sizeButton};
+  width: ${({ customStyles }: StylingProps) => customStyles.sizeButton};
+  height: ${({ customStyles }: StylingProps) => customStyles.sizeButton};
   background: var(--color-tertiary);
   border-radius: 50%;
   border: 1px solid var(--color-stroke);
