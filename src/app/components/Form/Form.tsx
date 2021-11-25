@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import RoundActionButton from '../RoundActionButton/RoundActionButton';
 
 type FormProps = {
   nameLabel: string;
   evaluationLabel: string;
   onSubmit: (pupil: { name: string; evaluation: string }) => void;
+  onCancel: () => void;
   submitted: boolean;
 };
 
@@ -12,6 +14,7 @@ export default function Form({
   nameLabel,
   evaluationLabel,
   onSubmit,
+  onCancel,
 }: FormProps): JSX.Element {
   const [name, setName] = useState('');
   const [evaluation, setEvaluation] = useState('');
@@ -33,6 +36,15 @@ export default function Form({
 
   return (
     <FormContainer onSubmit={handleSubmit}>
+      <RoundActionButton
+        children="X"
+        handleClick={() => onCancel()}
+        customStyles={{
+          sizeButton: '1.5rem',
+          topPosition: '0.375rem',
+          rightPosition: '0.5rem',
+        }}
+      />
       <label htmlFor="name">{nameLabel}:</label>
       <Input
         type="text"
