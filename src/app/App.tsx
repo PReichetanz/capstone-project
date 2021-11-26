@@ -11,7 +11,7 @@ type Pupil = {
 
 export default function App(): JSX.Element {
   const [pupils, setPupils] = useState<Pupil[]>([]);
-  const [displayState, setDisplayState] = useState('');
+  const [isFormShown, setIsFormShown] = useState(false);
 
   function findPupilByName(name: string) {
     return pupils.find((pupil) => pupil.name === name);
@@ -38,7 +38,7 @@ export default function App(): JSX.Element {
           evaluations: [pupil.evaluation],
         },
       ]);
-      setDisplayState('');
+      setIsFormShown(false);
     }
   }
 
@@ -53,13 +53,13 @@ export default function App(): JSX.Element {
         <h1>Meine Klasse</h1>
       </Header>
       <Main>
-        {displayState === 'showAddPupilForm' && (
+        {isFormShown && (
           <Form
             nameLabel="Name des Schülers"
             evaluationLabel="Worturteil"
             onSubmit={handleFormSubmit}
-            submitted={false}
-            onCancel={() => setDisplayState('')}
+            missingInput={false}
+            onCancel={() => setIsFormShown(false)}
           />
         )}
         {pupils.map((pupil, key) => (
@@ -70,7 +70,7 @@ export default function App(): JSX.Element {
           />
         ))}
       </Main>
-      <AddButton onClick={() => setDisplayState('showAddPupilForm')}>
+      <AddButton onClick={() => setIsFormShown(true)}>
         Schüler hinzufügen
       </AddButton>
     </Container>
@@ -93,7 +93,6 @@ const Header = styled.div`
 const Container = styled.div`
   height: 100vh;
   display: grid;
-  grid-template-columns: 1fr;
   grid-template-rows: auto 1fr auto;
   background: var(--color-background-light);
   padding-bottom: 0.5rem;

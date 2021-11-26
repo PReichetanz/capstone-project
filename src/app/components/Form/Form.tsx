@@ -7,7 +7,7 @@ type FormProps = {
   evaluationLabel: string;
   onSubmit: (pupil: { name: string; evaluation: string }) => void;
   onCancel: () => void;
-  submitted: boolean;
+  missingInput: boolean;
 };
 
 export default function Form({
@@ -53,7 +53,7 @@ export default function Form({
           placeholder="Lena Beispiel"
           onChange={(event) => setName(event.target.value)}
           value={name}
-          submitted={inputError}
+          missingInput={inputError}
         />
         {inputError && name === '' && (
           <SubmitWarning>Bitte geben Sie einen Namen ein.</SubmitWarning>
@@ -65,7 +65,7 @@ export default function Form({
           placeholder="Lena arbeitet häufig gut mit."
           onChange={(event) => setEvaluation(event.target.value)}
           value={evaluation}
-          submitted={inputError}
+          missingInput={inputError}
         />
         {inputError && evaluation === '' && (
           <SubmitWarning>Bitte geben Sie eine Beurteilung ein.</SubmitWarning>
@@ -104,7 +104,7 @@ const Input = styled.input<Partial<FormProps>>`
   color: var(--color-text-white);
   padding: 0.5rem;
   outline: ${(props) =>
-    props.submitted && props.value === ''
+    props.missingInput && props.value === ''
       ? '2px solid var(--color-tertiary)'
       : ''};
 `;
@@ -116,7 +116,7 @@ const Textarea = styled.textarea<Partial<FormProps>>`
   color: var(--color-text-white);
   padding: 0.5rem;
   outline: ${(props) =>
-    props.submitted && props.value === ''
+    props.missingInput && props.value === ''
       ? '2px solid var(--color-tertiary)'
       : ''};
 `;
