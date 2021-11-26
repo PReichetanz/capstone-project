@@ -12,7 +12,8 @@ export const regular = (): JSX.Element => (
     nameLabel="Name des Schülers"
     evaluationLabel="Worturteil"
     onSubmit={() => console.log('submitted')}
-    submitted={false}
+    missingInput={false}
+    onCancel={() => console.log('canceled!')}
   />
 );
 
@@ -21,6 +22,7 @@ export const empty = (): JSX.Element => (
     nameLabel="Name des Schülers"
     evaluationLabel="Worturteil"
     onSubmit={() => console.log('submitted')}
-    submitted={false}
+    missingInput={false}
+    onCancel={() => console.log('canceled!')}
   />
 );
