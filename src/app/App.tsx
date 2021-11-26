@@ -30,6 +30,7 @@ export default function App(): JSX.Element {
       const newPupils = pupils.slice();
       newPupils[existingPupilId] = existingPupil;
       setPupils(newPupils);
+      setIsFormShown(false);
     } else {
       setPupils([
         ...pupils,
