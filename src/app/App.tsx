@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import useLocalStorage from './hooks/useLocalStorage';
 import styled from 'styled-components';
 import Card from './components/Card/Card';
 import Form from './components/Form/Form';
@@ -10,7 +11,7 @@ type Pupil = {
 };
 
 export default function App(): JSX.Element {
-  const [pupils, setPupils] = useState<Pupil[]>([]);
+  const [pupils, setPupils] = useLocalStorage<Pupil[]>('myPupils', []);
   const [isFormShown, setIsFormShown] = useState(false);
 
   function findPupilByName(name: string) {
@@ -30,6 +31,7 @@ export default function App(): JSX.Element {
       const newPupils = pupils.slice();
       newPupils[existingPupilId] = existingPupil;
       setPupils(newPupils);
+      setIsFormShown(false);
     } else {
       setPupils([
         ...pupils,
