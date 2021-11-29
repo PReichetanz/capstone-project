@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import RoundActionButton from '../RoundActionButton/RoundActionButton';
+import Navigation from '../Navigation/Navigation';
 
 type FormProps = {
   nameLabel: string;
@@ -37,15 +37,6 @@ export default function Form({
   return (
     <FormWrapper>
       <FormContainer onSubmit={handleSubmit}>
-        <RoundActionButton
-          children="X"
-          handleClick={() => onCancel()}
-          customStyles={{
-            sizeButton: '1.5rem',
-            topPosition: '0.375rem',
-            rightPosition: '0.5rem',
-          }}
-        />
         <label htmlFor="name">{nameLabel}:</label>
         <Input
           type="text"
@@ -70,7 +61,7 @@ export default function Form({
         {inputError && evaluation === '' && (
           <SubmitWarning>Bitte geben Sie eine Beurteilung ein.</SubmitWarning>
         )}
-        <SubmitButton type="submit" value="Hinzufügen" />
+        <Navigation navigateBack={() => onCancel()} isFormNavigation={true} />
       </FormContainer>
     </FormWrapper>
   );
@@ -124,12 +115,4 @@ const Textarea = styled.textarea<Partial<FormProps>>`
 const SubmitWarning = styled.span`
   color: var(--color-tertiary);
   text-align: center;
-`;
-
-const SubmitButton = styled.input`
-  background: var(--color-button);
-  border-radius: 0.5rem;
-  border: 1px solid var(--color-stroke);
-  font-weight: 700;
-  padding: 0.5rem;
 `;
