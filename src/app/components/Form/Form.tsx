@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Navigation from '../Navigation/Navigation';
 import RoundActionButton from '../RoundActionButton/RoundActionButton';
 
 type FormProps = {
@@ -37,15 +38,6 @@ export default function Form({
   return (
     <FormWrapper>
       <FormContainer onSubmit={handleSubmit}>
-        <RoundActionButton
-          children="X"
-          handleClick={() => onCancel()}
-          customStyles={{
-            sizeButton: '1.5rem',
-            topPosition: '0.375rem',
-            rightPosition: '0.5rem',
-          }}
-        />
         <label htmlFor="name">{nameLabel}:</label>
         <Input
           type="text"
@@ -70,7 +62,7 @@ export default function Form({
         {inputError && evaluation === '' && (
           <SubmitWarning>Bitte geben Sie eine Beurteilung ein.</SubmitWarning>
         )}
-        <SubmitButton type="submit" value="Hinzufügen" />
+        <Navigation navigateBack={() => onCancel()} isFormNavigation={true} />
       </FormContainer>
     </FormWrapper>
   );
