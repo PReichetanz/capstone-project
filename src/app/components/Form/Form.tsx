@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Navigation from '../Navigation/Navigation';
-import RoundActionButton from '../RoundActionButton/RoundActionButton';
 
 type FormProps = {
   nameLabel: string;
@@ -116,12 +115,4 @@ const Textarea = styled.textarea<Partial<FormProps>>`
 const SubmitWarning = styled.span`
   color: var(--color-tertiary);
   text-align: center;
-`;
-
-const SubmitButton = styled.input`
-  background: var(--color-button);
-  border-radius: 0.5rem;
-  border: 1px solid var(--color-stroke);
-  font-weight: 700;
-  padding: 0.5rem;
 `;
