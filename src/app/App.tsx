@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Card from './components/Card/Card';
 import Form from './components/Form/Form';
 import Button from './components/Button/Button';
+import Header from './components/Header/Header';
 
 type Pupil = {
   name: string;
@@ -51,9 +52,7 @@ export default function App(): JSX.Element {
 
   return (
     <Container>
-      <Header>
-        <h1>Meine Klasse</h1>
-      </Header>
+      <Header>Meine Klasse</Header>
       <Main>
         {isFormShown && (
           <Form
@@ -82,14 +81,6 @@ export default function App(): JSX.Element {
 const AddButton = styled(Button)`
   grid-row: 3 / 4;
   margin-top: 0.5rem;
-`;
-
-const Header = styled.div`
-  grid-row: 1/ 2;
-  color: var(--color-text-white);
-  background: var(--color-background-dark);
-  padding-left: 1rem;
-  border-bottom: 1px solid var(--color-stroke);
 `;
 
 const Container = styled.div`
