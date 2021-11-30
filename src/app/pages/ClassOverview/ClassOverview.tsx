@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
@@ -14,6 +15,7 @@ type Pupil = {
 export default function ClassOverview(): JSX.Element {
   const [pupils, setPupils] = useLocalStorage<Pupil[]>('myPupils', []);
   const [isFormShown, setIsFormShown] = useState(false);
+  const navigate = useNavigate();
 
   function findPupilByName(name: string) {
     return pupils.find((pupil) => pupil.name === name);
@@ -49,6 +51,7 @@ export default function ClassOverview(): JSX.Element {
     const newPupilsList = pupils.filter((pupil) => pupil.name !== name);
     setPupils(newPupilsList);
   }
+
   return (
     <Container>
       <Header>Meine Klasse</Header>
@@ -67,6 +70,9 @@ export default function ClassOverview(): JSX.Element {
             pupil={pupil}
             key={`${pupil.name}-${key}`}
             deleteCard={deletePupil}
+            handleClick={() =>
+              navigate(`/pupil/${pupil.name}`, { state: pupil })
+            }
           />
         ))}
       </Main>
