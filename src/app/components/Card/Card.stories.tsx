@@ -23,9 +23,17 @@ export default {
 };
 
 export const regular = (): JSX.Element => (
-  <Card pupil={testPupil} deleteCard={() => console.log('deleted')} />
+  <Card
+    pupil={testPupil}
+    deleteCard={() => console.log('deleted')}
+    handleClick={() => console.log('clicked')}
+  />
 );
 
 export const Long = (): JSX.Element => (
-  <Card pupil={moreEvaluations} deleteCard={() => console.log('deleted')} />
+  <Card
+    pupil={moreEvaluations}
+    deleteCard={() => console.log('deleted')}
+    handleClick={() => console.log('clicked')}
+  />
 );
