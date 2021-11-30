@@ -8,7 +8,7 @@ type CardProps = {
     evaluations: string[];
   };
   deleteCard: (name: string) => void;
-  handleClick?: () => void;
+  handleClick: () => void;
 };
 
 export default function Card({
