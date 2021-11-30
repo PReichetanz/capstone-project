@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
@@ -26,7 +26,6 @@ export default function ClassOverview({
   pupils,
   deletePupil,
 }: ClassOverviewProps): JSX.Element {
-  const navigate = useNavigate();
   return (
     <Container>
       <Header>Meine Klasse</Header>
@@ -41,14 +40,9 @@ export default function ClassOverview({
           />
         )}
         {pupils.map((pupil, key) => (
-          <Card
-            pupil={pupil}
-            key={`${pupil.name}-${key}`}
-            deleteCard={deletePupil}
-            handleClick={() =>
-              navigate(`/pupil/${pupil.name}`, { state: pupil })
-            }
-          />
+          <CardLink to={`/pupil/${pupil.name}`} key={`${pupil.name}-${key}`}>
+            <Card pupil={pupil} deleteCard={deletePupil} />
+          </CardLink>
         ))}
       </Main>
       <AddButton onClick={() => setIsFormShown(true)}>
@@ -69,6 +63,15 @@ const Container = styled.div`
   grid-template-rows: auto 1fr auto;
   background: var(--color-background-light);
   padding-bottom: 0.5rem;
+`;
+
+const CardLink = styled(Link)`
+  text-decoration: none;
+  display: block;
+  padding-bottom: 0.5rem;
+  & + & {
+    margin-top: 1rem;
+  }
 `;
 
 const Main = styled.main`

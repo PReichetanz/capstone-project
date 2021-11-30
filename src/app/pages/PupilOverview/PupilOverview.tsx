@@ -29,7 +29,7 @@ export default function PupilOverview({
             header="Kategorie"
             name={pupil.name}
             evaluation={evaluation}
-            deleteCard={deleteEvaluation}
+            onDeleteClick={deleteEvaluation}
           />
         ))}
       </Main>

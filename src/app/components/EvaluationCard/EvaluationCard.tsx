@@ -6,21 +6,21 @@ type CardProps = {
   header: string;
   name: string;
   evaluation: string;
-  deleteCard: (name: string, evaluation: string) => void;
+  onDeleteClick: (name: string, evaluation: string) => void;
 };
 
 export default function Card({
   header,
   name,
   evaluation,
-  deleteCard,
+  onDeleteClick,
 }: CardProps): JSX.Element {
   return (
     <Container>
       <Heading>{header}</Heading>
       <RoundActionButton
         children="X"
-        handleClick={() => deleteCard(name, evaluation)}
+        handleClick={() => onDeleteClick(name, evaluation)}
       />
       <Evaluation>{evaluation}</Evaluation>
     </Container>
