@@ -8,12 +8,17 @@ type CardProps = {
     evaluations: string[];
   };
   deleteCard: (name: string) => void;
+  handleClick?: () => void;
 };
 
-export default function Card({ pupil, deleteCard }: CardProps): JSX.Element {
+export default function Card({
+  pupil,
+  deleteCard,
+  handleClick,
+}: CardProps): JSX.Element {
   const { name, evaluations } = pupil;
   return (
-    <Container>
+    <Container onClick={handleClick}>
       <Heading>{name}</Heading>
       <RoundActionButton children="X" handleClick={() => deleteCard(name)} />
       {evaluations.map((evaluation, key) => (
