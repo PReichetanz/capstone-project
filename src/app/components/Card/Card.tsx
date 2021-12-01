@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import RoundActionButton from '../RoundActionButton/RoundActionButton';
 
@@ -14,14 +15,25 @@ export default function Card({ pupil, deleteCard }: CardProps): JSX.Element {
   const { name, evaluations } = pupil;
   return (
     <Container>
-      <Heading>{name}</Heading>
       <RoundActionButton children="X" handleClick={() => deleteCard(name)} />
-      {evaluations.map((evaluation, key) => (
-        <Evaluation key={`${evaluation}-${key}`}>{evaluation}</Evaluation>
-      ))}
+      <CardLink to={`/pupil/${pupil.name}`}>
+        <Heading>{name}</Heading>
+        {evaluations.map((evaluation, key) => (
+          <Evaluation key={`${evaluation}-${key}`}>{evaluation}</Evaluation>
+        ))}
+      </CardLink>
     </Container>
   );
 }
+
+const CardLink = styled(Link)`
+  text-decoration: none;
+  display: block;
+  padding-bottom: 0.5rem;
+  & + & {
+    margin-top: 1rem;
+  }
+`;
 
 const Container = styled.article`
   position: relative;
@@ -29,10 +41,6 @@ const Container = styled.article`
   border-radius: 0.5rem;
   width: 90%;
   margin: auto;
-  padding-bottom: 0.5rem;
-  & + & {
-    margin-top: 1rem;
-  }
 `;
 
 const Heading = styled.h1`
