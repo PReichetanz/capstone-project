@@ -1,31 +1,55 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
 import Form from '../../components/Form/Form';
 import Header from '../../components/Header/Header';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 type Pupil = {
   name: string;
   evaluations: string[];
 };
 
-type ClassOverviewProps = {
-  isFormShown: boolean;
-  setIsFormShown: (value: boolean) => void;
-  handleFormSubmit: (pupil: { name: string; evaluation: string }) => void;
-  pupils: Pupil[];
-  deletePupil: (name: string) => void;
-};
+export default function ClassOverview(): JSX.Element {
+  const [pupils, setPupils] = useLocalStorage<Pupil[]>('myPupils', []);
+  const [isFormShown, setIsFormShown] = useState(false);
 
-export default function ClassOverview({
-  isFormShown,
-  setIsFormShown,
-  handleFormSubmit,
-  pupils,
-  deletePupil,
-}: ClassOverviewProps): JSX.Element {
+  function findPupilByName(name: string) {
+    return pupils.find((pupil) => pupil.name === name);
+  }
+
+  function handleFormSubmit(pupil: { name: string; evaluation: string }) {
+    const existingPupil = findPupilByName(pupil.name);
+    if (existingPupil) {
+      const existingPupilId = pupils.findIndex(
+        (pupil) => pupil.name === existingPupil.name
+      );
+      existingPupil.evaluations = [
+        ...existingPupil.evaluations,
+        pupil.evaluation,
+      ];
+      const newPupils = pupils.slice();
+      newPupils[existingPupilId] = existingPupil;
+      setPupils(newPupils);
+      setIsFormShown(false);
+    } else {
+      setPupils([
+        ...pupils,
+        {
+          name: pupil.name,
+          evaluations: [pupil.evaluation],
+        },
+      ]);
+      setIsFormShown(false);
+    }
+  }
+
+  function deletePupil(name: string) {
+    const newPupilsList = pupils.filter((pupil) => pupil.name !== name);
+    setPupils(newPupilsList);
+  }
+
   return (
     <Container>
       <Header>Meine Klasse</Header>
@@ -40,9 +64,11 @@ export default function ClassOverview({
           />
         )}
         {pupils.map((pupil, key) => (
-          <CardLink to={`/pupil/${pupil.name}`} key={`${pupil.name}-${key}`}>
-            <Card pupil={pupil} deleteCard={deletePupil} />
-          </CardLink>
+          <Card
+            key={`${pupil.name}-${key}`}
+            pupil={pupil}
+            deleteCard={deletePupil}
+          />
         ))}
       </Main>
       <AddButton onClick={() => setIsFormShown(true)}>
@@ -63,15 +89,6 @@ const Container = styled.div`
   grid-template-rows: auto 1fr auto;
   background: var(--color-background-light);
   padding-bottom: 0.5rem;
-`;
-
-const CardLink = styled(Link)`
-  text-decoration: none;
-  display: block;
-  padding-bottom: 0.5rem;
-  & + & {
-    margin-top: 1rem;
-  }
 `;
 
 const Main = styled.main`
