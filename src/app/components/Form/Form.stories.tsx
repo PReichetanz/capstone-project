@@ -9,9 +9,6 @@ export default {
 
 export const regular = (): JSX.Element => (
   <Form
-    nameLabel="Name des Schülers"
-    categoryLabel="Kategorie wählen"
-    evaluationLabel="Worturteil"
     onSubmit={() => console.log('submitted')}
     missingInput={false}
     onCancel={() => console.log('canceled!')}
@@ -20,9 +17,6 @@ export const regular = (): JSX.Element => (
 
 export const empty = (): JSX.Element => (
   <Form
-    nameLabel="Name des Schülers"
-    categoryLabel="Kategorie wählen"
-    evaluationLabel="Worturteil"
     onSubmit={() => console.log('submitted')}
     missingInput={false}
     onCancel={() => console.log('canceled!')}
