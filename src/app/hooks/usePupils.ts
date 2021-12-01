@@ -34,14 +34,29 @@ export default function usePupils(): {
         (pupil) => pupil.name === existingPupil.name
       );
 
-      existingPupil.evaluations = [
-        ...existingPupil.evaluations,
-        {
-          id: nanoid(),
-          category: pupil.category,
-          description: pupil.evaluation,
-        },
-      ];
+      // Find category and add new evaluation
+      const existingCategory = existingPupil.evaluations.find(
+        (evaluation) => evaluation.category === pupil.category
+      );
+      if (existingCategory) {
+        const existingCategoryId = existingPupil.evaluations.findIndex(
+          (evaluation) => evaluation.id === existingCategory.id
+        );
+        const newEvaluations = existingPupil.evaluations.slice();
+        newEvaluations[existingCategoryId].descriptions = [
+          ...newEvaluations[existingCategoryId].descriptions,
+          pupil.evaluation,
+        ];
+      } else {
+        existingPupil.evaluations = [
+          ...existingPupil.evaluations,
+          {
+            id: nanoid(),
+            category: pupil.category,
+            descriptions: [pupil.evaluation],
+          },
+        ];
+      }
 
       existingPupil.evaluations.sort((a, b) => {
         const firstCategory = a.category.toLowerCase();
@@ -68,7 +83,7 @@ export default function usePupils(): {
             {
               id: nanoid(),
               category: pupil.category,
-              description: pupil.evaluation,
+              descriptions: [pupil.evaluation],
             },
           ],
         },
