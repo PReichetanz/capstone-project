@@ -1,25 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import type { Pupil } from '../../types/types';
 import RoundActionButton from '../RoundActionButton/RoundActionButton';
 
 type CardProps = {
-  pupil: {
-    name: string;
-    evaluations: string[];
-  };
-  deleteCard: (name: string) => void;
+  pupil: Pupil;
+  deleteCard: (id: string) => void;
 };
 
 export default function Card({ pupil, deleteCard }: CardProps): JSX.Element {
   const { name, evaluations } = pupil;
   return (
     <Container>
-      <RoundActionButton children="X" handleClick={() => deleteCard(name)} />
-      <CardLink to={`/pupil/${pupil.name}`}>
+      <RoundActionButton
+        children="X"
+        handleClick={() => deleteCard(pupil.id)}
+      />
+      <CardLink to={`/pupil/${pupil.id}`}>
         <Heading>{name}</Heading>
-        {evaluations.map((evaluation, key) => (
-          <Evaluation key={`${evaluation}-${key}`}>{evaluation}</Evaluation>
+        {evaluations.map((evaluation) => (
+          <Evaluation key={evaluation.id}>{evaluation.description}</Evaluation>
         ))}
       </CardLink>
     </Container>
@@ -28,11 +29,6 @@ export default function Card({ pupil, deleteCard }: CardProps): JSX.Element {
 
 const CardLink = styled(Link)`
   text-decoration: none;
-  display: block;
-  padding-bottom: 0.5rem;
-  & + & {
-    margin-top: 1rem;
-  }
 `;
 
 const Container = styled.article`
@@ -41,6 +37,10 @@ const Container = styled.article`
   border-radius: 0.5rem;
   width: 90%;
   margin: auto;
+  padding-bottom: 0.5rem;
+  & + & {
+    margin-top: 1rem;
+  }
 `;
 
 const Heading = styled.h1`

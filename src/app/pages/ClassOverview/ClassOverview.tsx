@@ -4,50 +4,15 @@ import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
 import Form from '../../components/Form/Form';
 import Header from '../../components/Header/Header';
-import useLocalStorage from '../../hooks/useLocalStorage';
-
-type Pupil = {
-  name: string;
-  evaluations: string[];
-};
+import usePupils from '../../hooks/usePupils';
 
 export default function ClassOverview(): JSX.Element {
-  const [pupils, setPupils] = useLocalStorage<Pupil[]>('myPupils', []);
+  const { pupils, addPupil, deletePupil } = usePupils();
   const [isFormShown, setIsFormShown] = useState(false);
 
-  function findPupilByName(name: string) {
-    return pupils.find((pupil) => pupil.name === name);
-  }
-
   function handleFormSubmit(pupil: { name: string; evaluation: string }) {
-    const existingPupil = findPupilByName(pupil.name);
-    if (existingPupil) {
-      const existingPupilId = pupils.findIndex(
-        (pupil) => pupil.name === existingPupil.name
-      );
-      existingPupil.evaluations = [
-        ...existingPupil.evaluations,
-        pupil.evaluation,
-      ];
-      const newPupils = pupils.slice();
-      newPupils[existingPupilId] = existingPupil;
-      setPupils(newPupils);
-      setIsFormShown(false);
-    } else {
-      setPupils([
-        ...pupils,
-        {
-          name: pupil.name,
-          evaluations: [pupil.evaluation],
-        },
-      ]);
-      setIsFormShown(false);
-    }
-  }
-
-  function deletePupil(name: string) {
-    const newPupilsList = pupils.filter((pupil) => pupil.name !== name);
-    setPupils(newPupilsList);
+    addPupil(pupil);
+    setIsFormShown(false);
   }
 
   return (
@@ -64,11 +29,7 @@ export default function ClassOverview(): JSX.Element {
           />
         )}
         {pupils.map((pupil, key) => (
-          <Card
-            key={`${pupil.name}-${key}`}
-            pupil={pupil}
-            deleteCard={deletePupil}
-          />
+          <Card key={key} pupil={pupil} deleteCard={deletePupil} />
         ))}
       </Main>
       <AddButton onClick={() => setIsFormShown(true)}>

@@ -8,7 +8,7 @@ export default function App(): JSX.Element {
     <Routes>
       <Route path="/" element={<ClassOverview />} />
       <Route path="/pupil" element={<PupilOverview />}>
-        <Route path=":pupilName" />
+        <Route path=":id" />
       </Route>
     </Routes>
   );

@@ -4,51 +4,25 @@ import styled from 'styled-components';
 import EvaluationCard from '../../components/EvaluationCard/EvaluationCard';
 import Header from '../../components/Header/Header';
 import Navigation from '../../components/Navigation/Navigation';
-import useLocalStorage from '../../hooks/useLocalStorage';
-
-type Pupil = {
-  name: string;
-  evaluations: string[];
-};
+import usePupils from '../../hooks/usePupils';
 
 export default function PupilOverview(): JSX.Element {
-  const [pupils, setPupils] = useLocalStorage<Pupil[]>('myPupils', []);
   const navigate = useNavigate();
-  const { pupilName } = useParams<string>();
-  const pupil = findPupilByName(pupilName);
-
-  function findPupilByName(name: string | undefined) {
-    return pupils.find((pupil) => pupil.name === name);
-  }
-
-  function deleteEvaluation(evaluationToDelete: string) {
-    if (pupil) {
-      const existingPupilId = pupils.findIndex(
-        (pupil) => pupil.name === pupil.name
-      );
-
-      const newEvaluationsList = pupil.evaluations.filter(
-        (evaluation: string) => evaluation !== evaluationToDelete
-      );
-
-      pupil.evaluations = newEvaluationsList;
-      const newPupils = pupils.slice();
-      newPupils[existingPupilId] = pupil;
-      setPupils(newPupils);
-    }
-  }
+  const { id } = useParams<string>();
+  const { deleteEvaluation, findPupilById } = usePupils();
+  const currentPupil = findPupilById(id);
 
   return (
     <Container>
-      {pupil ? (
+      {currentPupil ? (
         <>
-          <Header>{pupil.name}</Header>
+          <Header>{currentPupil.name}</Header>
           <Main>
-            {pupil.evaluations.map((evaluation: string, key: number) => (
+            {currentPupil.evaluations.map((evaluation) => (
               <EvaluationCard
-                key={`${evaluation}-${key}`}
+                key={evaluation.id}
+                pupilId={currentPupil.id}
                 header="Kategorie"
-                name={pupil.name}
                 evaluation={evaluation}
                 onDeleteClick={deleteEvaluation}
               />
