@@ -1,59 +1,18 @@
-import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
 import Form from '../../components/Form/Form';
 import Header from '../../components/Header/Header';
-import useLocalStorage from '../../hooks/useLocalStorage';
-import type { Pupil } from '../../types/types';
+import usePupils from '../../hooks/usePupils';
 
 export default function ClassOverview(): JSX.Element {
-  const [pupils, setPupils] = useLocalStorage<Pupil[]>('myPupils', []);
+  const { pupils, addPupil, deletePupil } = usePupils();
   const [isFormShown, setIsFormShown] = useState(false);
 
-  function findPupilByName(name: string) {
-    return pupils.find((pupil) => pupil.name === name);
-  }
-
   function handleFormSubmit(pupil: { name: string; evaluation: string }) {
-    const existingPupil = findPupilByName(pupil.name);
-    if (existingPupil) {
-      const existingPupilId = pupils.findIndex(
-        (pupil) => pupil.name === existingPupil.name
-      );
-      existingPupil.evaluations = [
-        ...existingPupil.evaluations,
-        {
-          id: nanoid(),
-          description: pupil.evaluation,
-        },
-      ];
-      const newPupils = pupils.slice();
-      newPupils[existingPupilId] = existingPupil;
-      setPupils(newPupils);
-      setIsFormShown(false);
-    } else {
-      setPupils([
-        ...pupils,
-        {
-          id: nanoid(),
-          name: pupil.name,
-          evaluations: [
-            {
-              id: nanoid(),
-              description: pupil.evaluation,
-            },
-          ],
-        },
-      ]);
-      setIsFormShown(false);
-    }
-  }
-
-  function deletePupil(name: string) {
-    const newPupilsList = pupils.filter((pupil) => pupil.name !== name);
-    setPupils(newPupilsList);
+    addPupil(pupil);
+    setIsFormShown(false);
   }
 
   return (

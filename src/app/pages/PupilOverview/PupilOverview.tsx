@@ -1,39 +1,16 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
-import type { Pupil } from '../../types/types';
 import EvaluationCard from '../../components/EvaluationCard/EvaluationCard';
 import Header from '../../components/Header/Header';
 import Navigation from '../../components/Navigation/Navigation';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import usePupils from '../../hooks/usePupils';
 
 export default function PupilOverview(): JSX.Element {
-  const [pupils, setPupils] = useLocalStorage<Pupil[]>('myPupils', []);
   const navigate = useNavigate();
-  const { pupilName } = useParams<string>();
-  const currentPupil = findPupilByName(pupilName);
-  console.log(currentPupil);
-
-  function findPupilByName(name: string | undefined) {
-    return pupils.find((pupil) => pupil.name === name);
-  }
-
-  function deleteEvaluation(evaluationToDeleteId: string) {
-    if (currentPupil) {
-      const existingPupilId = pupils.findIndex(
-        (pupil) => pupil.id === currentPupil.id
-      );
-
-      const newEvaluationsList = currentPupil.evaluations.filter(
-        (evaluation) => evaluation.id !== evaluationToDeleteId
-      );
-
-      currentPupil.evaluations = newEvaluationsList;
-      const newPupils = pupils.slice();
-      newPupils[existingPupilId] = currentPupil;
-      setPupils(newPupils);
-    }
-  }
+  const { id } = useParams<string>();
+  const { deleteEvaluation, findPupilById } = usePupils();
+  const currentPupil = findPupilById(id);
 
   return (
     <Container>
@@ -44,6 +21,7 @@ export default function PupilOverview(): JSX.Element {
             {currentPupil.evaluations.map((evaluation) => (
               <EvaluationCard
                 key={evaluation.id}
+                pupilId={currentPupil.id}
                 header="Kategorie"
                 evaluation={evaluation}
                 onDeleteClick={deleteEvaluation}
