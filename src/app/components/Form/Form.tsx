@@ -3,20 +3,18 @@ import styled from 'styled-components';
 import Navigation from '../Navigation/Navigation';
 
 type FormProps = {
-  nameLabel: string;
-  evaluationLabel: string;
-  onSubmit: (pupil: { name: string; evaluation: string }) => void;
+  onSubmit: (pupil: {
+    name: string;
+    category: string;
+    evaluation: string;
+  }) => void;
   onCancel: () => void;
   missingInput: boolean;
 };
 
-export default function Form({
-  nameLabel,
-  evaluationLabel,
-  onSubmit,
-  onCancel,
-}: FormProps): JSX.Element {
+export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
   const [name, setName] = useState('');
+  const [category, setCategory] = useState('');
   const [evaluation, setEvaluation] = useState('');
   const [inputError, setInputError] = useState(false);
 
@@ -27,7 +25,7 @@ export default function Form({
       setInputError(true);
       return;
     } else {
-      onSubmit({ name, evaluation });
+      onSubmit({ name, category, evaluation });
       setInputError(false);
       setName('');
       setEvaluation('');
@@ -37,7 +35,7 @@ export default function Form({
   return (
     <FormWrapper>
       <FormContainer onSubmit={handleSubmit}>
-        <label htmlFor="name">{nameLabel}:</label>
+        <label htmlFor="name">Name des Schülers:</label>
         <Input
           type="text"
           id="name"
@@ -49,7 +47,19 @@ export default function Form({
         {inputError && name === '' && (
           <SubmitWarning>Bitte geben Sie einen Namen ein.</SubmitWarning>
         )}
-        <label htmlFor="evaluation">{evaluationLabel}:</label>
+        <label htmlFor="category">Kategorie wählen:</label>
+        <Input
+          type="text"
+          id="category"
+          placeholder="Arbeitsweise"
+          onChange={(event) => setCategory(event.target.value)}
+          value={category}
+          missingInput={inputError}
+        />
+        {inputError && category === '' && (
+          <SubmitWarning>Bitte geben Sie eine Kategorie ein.</SubmitWarning>
+        )}
+        <label htmlFor="evaluation">Worturteil:</label>
         <Textarea
           id="evaluation"
           rows={3}

@@ -10,7 +10,11 @@ export default function ClassOverview(): JSX.Element {
   const { pupils, addPupil, deletePupil } = usePupils();
   const [isFormShown, setIsFormShown] = useState(false);
 
-  function handleFormSubmit(pupil: { name: string; evaluation: string }) {
+  function handleFormSubmit(pupil: {
+    name: string;
+    category: string;
+    evaluation: string;
+  }) {
     addPupil(pupil);
     setIsFormShown(false);
   }
@@ -21,8 +25,6 @@ export default function ClassOverview(): JSX.Element {
       <Main>
         {isFormShown && (
           <Form
-            nameLabel="Name des Schülers"
-            evaluationLabel="Worturteil"
             onSubmit={handleFormSubmit}
             missingInput={false}
             onCancel={() => setIsFormShown(false)}

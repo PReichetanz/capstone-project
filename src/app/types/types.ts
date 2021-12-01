@@ -1,5 +1,6 @@
 export type Evaluation = {
   id: string;
+  category: string;
   description: string;
 };
 
