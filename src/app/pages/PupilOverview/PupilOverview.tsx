@@ -1,54 +1,50 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
+import type { Pupil } from '../../types/types';
 import EvaluationCard from '../../components/EvaluationCard/EvaluationCard';
 import Header from '../../components/Header/Header';
 import Navigation from '../../components/Navigation/Navigation';
 import useLocalStorage from '../../hooks/useLocalStorage';
 
-type Pupil = {
-  name: string;
-  evaluations: string[];
-};
-
 export default function PupilOverview(): JSX.Element {
   const [pupils, setPupils] = useLocalStorage<Pupil[]>('myPupils', []);
   const navigate = useNavigate();
   const { pupilName } = useParams<string>();
-  const pupil = findPupilByName(pupilName);
+  const currentPupil = findPupilByName(pupilName);
+  console.log(currentPupil);
 
   function findPupilByName(name: string | undefined) {
     return pupils.find((pupil) => pupil.name === name);
   }
 
-  function deleteEvaluation(evaluationToDelete: string) {
-    if (pupil) {
+  function deleteEvaluation(evaluationToDeleteId: string) {
+    if (currentPupil) {
       const existingPupilId = pupils.findIndex(
-        (pupil) => pupil.name === pupil.name
+        (pupil) => pupil.id === currentPupil.id
       );
 
-      const newEvaluationsList = pupil.evaluations.filter(
-        (evaluation: string) => evaluation !== evaluationToDelete
+      const newEvaluationsList = currentPupil.evaluations.filter(
+        (evaluation) => evaluation.id !== evaluationToDeleteId
       );
 
-      pupil.evaluations = newEvaluationsList;
+      currentPupil.evaluations = newEvaluationsList;
       const newPupils = pupils.slice();
-      newPupils[existingPupilId] = pupil;
+      newPupils[existingPupilId] = currentPupil;
       setPupils(newPupils);
     }
   }
 
   return (
     <Container>
-      {pupil ? (
+      {currentPupil ? (
         <>
-          <Header>{pupil.name}</Header>
+          <Header>{currentPupil.name}</Header>
           <Main>
-            {pupil.evaluations.map((evaluation: string, key: number) => (
+            {currentPupil.evaluations.map((evaluation) => (
               <EvaluationCard
-                key={`${evaluation}-${key}`}
+                key={evaluation.id}
                 header="Kategorie"
-                name={pupil.name}
                 evaluation={evaluation}
                 onDeleteClick={deleteEvaluation}
               />

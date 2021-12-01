@@ -4,12 +4,14 @@ import RoundActionButton from '../RoundActionButton/RoundActionButton';
 
 type CardProps = {
   header: string;
-  name: string;
-  evaluation: string;
+  evaluation: {
+    id: string;
+    description: string;
+  };
   onDeleteClick: (evaluation: string) => void;
 };
 
-export default function Card({
+export default function EvaluationCard({
   header,
   evaluation,
   onDeleteClick,
@@ -19,9 +21,9 @@ export default function Card({
       <Heading>{header}</Heading>
       <RoundActionButton
         children="X"
-        handleClick={() => onDeleteClick(evaluation)}
+        handleClick={() => onDeleteClick(evaluation.id)}
       />
-      <Evaluation>{evaluation}</Evaluation>
+      <Evaluation>{evaluation.description}</Evaluation>
     </Container>
   );
 }

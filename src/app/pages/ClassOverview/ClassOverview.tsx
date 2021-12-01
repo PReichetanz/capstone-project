@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../components/Button/Button';
@@ -5,11 +6,7 @@ import Card from '../../components/Card/Card';
 import Form from '../../components/Form/Form';
 import Header from '../../components/Header/Header';
 import useLocalStorage from '../../hooks/useLocalStorage';
-
-type Pupil = {
-  name: string;
-  evaluations: string[];
-};
+import type { Pupil } from '../../types/types';
 
 export default function ClassOverview(): JSX.Element {
   const [pupils, setPupils] = useLocalStorage<Pupil[]>('myPupils', []);
@@ -27,7 +24,10 @@ export default function ClassOverview(): JSX.Element {
       );
       existingPupil.evaluations = [
         ...existingPupil.evaluations,
-        pupil.evaluation,
+        {
+          id: nanoid(),
+          description: pupil.evaluation,
+        },
       ];
       const newPupils = pupils.slice();
       newPupils[existingPupilId] = existingPupil;
@@ -37,8 +37,14 @@ export default function ClassOverview(): JSX.Element {
       setPupils([
         ...pupils,
         {
+          id: nanoid(),
           name: pupil.name,
-          evaluations: [pupil.evaluation],
+          evaluations: [
+            {
+              id: nanoid(),
+              description: pupil.evaluation,
+            },
+          ],
         },
       ]);
       setIsFormShown(false);
@@ -64,11 +70,7 @@ export default function ClassOverview(): JSX.Element {
           />
         )}
         {pupils.map((pupil, key) => (
-          <Card
-            key={`${pupil.name}-${key}`}
-            pupil={pupil}
-            deleteCard={deletePupil}
-          />
+          <Card key={key} pupil={pupil} deleteCard={deletePupil} />
         ))}
       </Main>
       <AddButton onClick={() => setIsFormShown(true)}>
