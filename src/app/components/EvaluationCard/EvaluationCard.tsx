@@ -3,15 +3,17 @@ import styled from 'styled-components';
 import RoundActionButton from '../RoundActionButton/RoundActionButton';
 
 type CardProps = {
+  pupilId: string;
   header: string;
   evaluation: {
     id: string;
     description: string;
   };
-  onDeleteClick: (evaluation: string) => void;
+  onDeleteClick: (pupilId: string, evaluationId: string) => void;
 };
 
 export default function EvaluationCard({
+  pupilId,
   header,
   evaluation,
   onDeleteClick,
@@ -21,7 +23,7 @@ export default function EvaluationCard({
       <Heading>{header}</Heading>
       <RoundActionButton
         children="X"
-        handleClick={() => onDeleteClick(evaluation.id)}
+        handleClick={() => onDeleteClick(pupilId, evaluation.id)}
       />
       <Evaluation>{evaluation.description}</Evaluation>
     </Container>

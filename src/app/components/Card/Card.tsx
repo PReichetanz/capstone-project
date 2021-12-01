@@ -6,16 +6,18 @@ import RoundActionButton from '../RoundActionButton/RoundActionButton';
 
 type CardProps = {
   pupil: Pupil;
-  deleteCard: (name: string) => void;
+  deleteCard: (id: string) => void;
 };
 
 export default function Card({ pupil, deleteCard }: CardProps): JSX.Element {
   const { name, evaluations } = pupil;
-  console.log(pupil);
   return (
     <Container>
-      <RoundActionButton children="X" handleClick={() => deleteCard(name)} />
-      <CardLink to={`/pupil/${pupil.name}`}>
+      <RoundActionButton
+        children="X"
+        handleClick={() => deleteCard(pupil.id)}
+      />
+      <CardLink to={`/pupil/${pupil.id}`}>
         <Heading>{name}</Heading>
         {evaluations.map((evaluation) => (
           <Evaluation key={evaluation.id}>{evaluation.description}</Evaluation>
