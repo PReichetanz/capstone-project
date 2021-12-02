@@ -86,22 +86,37 @@ export default function usePupils(): {
   }) {
     const existingPupil = findPupilByName(pupil.name);
     if (existingPupil) {
-      addEvaluation(existingPupil, pupil.category, pupil.evaluation);
+      if (pupil.category === '' && pupil.evaluation === '') {
+        return;
+      } else {
+        addEvaluation(existingPupil, pupil.category, pupil.evaluation);
+      }
     } else {
-      setPupils([
-        ...pupils,
-        {
-          id: nanoid(),
-          name: pupil.name,
-          evaluations: [
-            {
-              id: nanoid(),
-              category: pupil.category,
-              descriptions: [pupil.evaluation],
-            },
-          ],
-        },
-      ]);
+      if (pupil.category === '' && pupil.evaluation === '') {
+        setPupils([
+          ...pupils,
+          {
+            id: nanoid(),
+            name: pupil.name,
+            evaluations: [],
+          },
+        ]);
+      } else {
+        setPupils([
+          ...pupils,
+          {
+            id: nanoid(),
+            name: pupil.name,
+            evaluations: [
+              {
+                id: nanoid(),
+                category: pupil.category,
+                descriptions: [pupil.evaluation],
+              },
+            ],
+          },
+        ]);
+      }
     }
   }
 

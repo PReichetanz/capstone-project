@@ -21,6 +21,13 @@ export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    if (name !== '' && category === '' && evaluation === '') {
+      onSubmit({ name, category, evaluation });
+      setInputError(false);
+      setName('');
+      setEvaluation('');
+      return;
+    }
     if (name === '' || category === '' || evaluation === '') {
       setInputError(true);
       return;

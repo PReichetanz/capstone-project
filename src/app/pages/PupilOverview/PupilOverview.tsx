@@ -32,14 +32,16 @@ export default function PupilOverview(): JSX.Element {
                 onCancel={() => setIsFormShown(false)}
               />
             )}
-            {currentPupil.evaluations.map((evaluation) => (
-              <EvaluationCard
-                key={evaluation.id}
-                pupilId={currentPupil.id}
-                evaluation={evaluation}
-                onDeleteClick={deleteEvaluation}
-              />
-            ))}
+            {currentPupil.evaluations.length === 0
+              ? ''
+              : currentPupil.evaluations.map((evaluation) => (
+                  <EvaluationCard
+                    key={evaluation.id}
+                    pupilId={currentPupil.id}
+                    evaluation={evaluation}
+                    onDeleteClick={deleteEvaluation}
+                  />
+                ))}
           </Main>
           <Navigation
             isFormNavigation={false}
