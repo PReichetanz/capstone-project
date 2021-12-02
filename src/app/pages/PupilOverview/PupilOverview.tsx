@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
 import AddEvaluationForm from '../../components/AddEvaluationForm/AddEvaluationForm';
+import CopyButton from '../../components/CopyButton/CopyButton';
 import EvaluationCard from '../../components/EvaluationCard/EvaluationCard';
 import Header from '../../components/Header/Header';
 import Navigation from '../../components/Navigation/Navigation';
@@ -42,6 +43,14 @@ export default function PupilOverview(): JSX.Element {
                     onDeleteClick={deleteEvaluation}
                   />
                 ))}
+            {currentPupil.evaluations.length === 0 ? (
+              ''
+            ) : (
+              <>
+                <Breakline />
+                <CopyButton copyText={'currentPupil'} />
+              </>
+            )}
           </Main>
           <Navigation
             isFormNavigation={false}
@@ -56,6 +65,12 @@ export default function PupilOverview(): JSX.Element {
     </Container>
   );
 }
+
+const Breakline = styled.hr`
+  width: 80%;
+  border-top: 3px double var(--color-stroke);
+  height: 0.25rem;
+`;
 
 const Container = styled.div`
   height: 100vh;
