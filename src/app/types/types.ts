@@ -1,6 +1,7 @@
 export type Evaluation = {
   id: string;
-  description: string;
+  category: string;
+  descriptions: string[];
 };
 
 export type Pupil = {

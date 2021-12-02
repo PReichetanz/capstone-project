@@ -22,7 +22,6 @@ export default function PupilOverview(): JSX.Element {
               <EvaluationCard
                 key={evaluation.id}
                 pupilId={currentPupil.id}
-                header="Kategorie"
                 evaluation={evaluation}
                 onDeleteClick={deleteEvaluation}
               />

@@ -5,7 +5,11 @@ import useLocalStorage from './useLocalStorage';
 export default function usePupils(): {
   pupils: Pupil[];
   findPupilById: (id: string | undefined) => Pupil | undefined;
-  addPupil: (pupil: { name: string; evaluation: string }) => void;
+  addPupil: (pupil: {
+    name: string;
+    category: string;
+    evaluation: string;
+  }) => void;
   deletePupil: (id: string) => void;
   deleteEvaluation: (pupilId: string, evalationToDeleteId: string) => void;
 } {
@@ -19,23 +23,56 @@ export default function usePupils(): {
     return pupils.find((pupil) => pupil.name === name);
   }
 
-  function addPupil(pupil: { name: string; evaluation: string }) {
+  function addPupil(pupil: {
+    name: string;
+    category: string;
+    evaluation: string;
+  }) {
     const existingPupil = findPupilByName(pupil.name);
     if (existingPupil) {
       const existingPupilId = pupils.findIndex(
         (pupil) => pupil.name === existingPupil.name
       );
-      existingPupil.evaluations = [
-        ...existingPupil.evaluations,
-        {
-          id: nanoid(),
-          description: pupil.evaluation,
-        },
-      ];
+
+      // Find category and add new evaluation
+      const existingCategory = existingPupil.evaluations.find(
+        (evaluation) => evaluation.category === pupil.category
+      );
+      if (existingCategory) {
+        const existingCategoryId = existingPupil.evaluations.findIndex(
+          (evaluation) => evaluation.id === existingCategory.id
+        );
+        const newEvaluations = existingPupil.evaluations.slice();
+        newEvaluations[existingCategoryId].descriptions = [
+          ...newEvaluations[existingCategoryId].descriptions,
+          pupil.evaluation,
+        ];
+      } else {
+        existingPupil.evaluations = [
+          ...existingPupil.evaluations,
+          {
+            id: nanoid(),
+            category: pupil.category,
+            descriptions: [pupil.evaluation],
+          },
+        ];
+      }
+
+      existingPupil.evaluations.sort((a, b) => {
+        const firstCategory = a.category.toLowerCase();
+        const secondCategory = b.category.toLowerCase();
+        if (firstCategory < secondCategory) {
+          return -1;
+        }
+        if (firstCategory > secondCategory) {
+          return 1;
+        }
+        return 0;
+      });
+
       const newPupils = pupils.slice();
       newPupils[existingPupilId] = existingPupil;
       setPupils(newPupils);
-      //setIsFormShown(false);
     } else {
       setPupils([
         ...pupils,
@@ -45,12 +82,12 @@ export default function usePupils(): {
           evaluations: [
             {
               id: nanoid(),
-              description: pupil.evaluation,
+              category: pupil.category,
+              descriptions: [pupil.evaluation],
             },
           ],
         },
       ]);
-      //setIsFormShown(false);
     }
   }
 

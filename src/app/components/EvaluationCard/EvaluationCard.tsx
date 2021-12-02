@@ -4,28 +4,31 @@ import RoundActionButton from '../RoundActionButton/RoundActionButton';
 
 type CardProps = {
   pupilId: string;
-  header: string;
   evaluation: {
     id: string;
-    description: string;
+    category: string;
+    descriptions: string[];
   };
   onDeleteClick: (pupilId: string, evaluationId: string) => void;
 };
 
 export default function EvaluationCard({
   pupilId,
-  header,
   evaluation,
   onDeleteClick,
 }: CardProps): JSX.Element {
   return (
     <Container>
-      <Heading>{header}</Heading>
+      <Heading>{evaluation.category}</Heading>
       <RoundActionButton
         children="X"
         handleClick={() => onDeleteClick(pupilId, evaluation.id)}
       />
-      <Evaluation>{evaluation.description}</Evaluation>
+      {evaluation.descriptions
+        ? evaluation.descriptions.map((description, key) => (
+            <Evaluation key={key}>{description}</Evaluation>
+          ))
+        : ''}
     </Container>
   );
 }
