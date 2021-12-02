@@ -30,17 +30,17 @@ export default function usePupils(): {
 
   function addEvaluation(
     pupil: Pupil | undefined,
-    newCategory: string,
-    newEvaluation: string
+    category: string,
+    evaluation: string
   ) {
     const existingPupil = pupil;
     if (existingPupil) {
       const existingPupilIndex = pupils.findIndex(
         (pupil) => pupil.id === existingPupil.id
       );
-      console.log(existingPupilIndex);
+
       const existingCategory = existingPupil.evaluations.find(
-        (evaluation) => evaluation.category === newCategory
+        (evaluation) => evaluation.category === category
       );
       if (existingCategory) {
         const existingCategoryId = existingPupil.evaluations.findIndex(
@@ -49,7 +49,7 @@ export default function usePupils(): {
         const newEvaluations = existingPupil.evaluations.slice();
         newEvaluations[existingCategoryId].descriptions = [
           ...newEvaluations[existingCategoryId].descriptions,
-          newEvaluation,
+          evaluation,
         ];
         existingPupil.evaluations = newEvaluations;
       } else {
@@ -57,8 +57,8 @@ export default function usePupils(): {
           ...existingPupil.evaluations,
           {
             id: nanoid(),
-            category: newCategory,
-            descriptions: [newEvaluation],
+            category: category,
+            descriptions: [evaluation],
           },
         ];
       }
