@@ -10,6 +10,11 @@ export default function usePupils(): {
     category: string;
     evaluation: string;
   }) => void;
+  addEvaluation: (
+    pupil: Pupil | undefined,
+    newCategory: string,
+    newEvaluation: string
+  ) => void;
   deletePupil: (id: string) => void;
   deleteEvaluation: (pupilId: string, evalationToDeleteId: string) => void;
 } {
@@ -23,20 +28,19 @@ export default function usePupils(): {
     return pupils.find((pupil) => pupil.name === name);
   }
 
-  function addPupil(pupil: {
-    name: string;
-    category: string;
-    evaluation: string;
-  }) {
-    const existingPupil = findPupilByName(pupil.name);
+  function addEvaluation(
+    pupil: Pupil | undefined,
+    category: string,
+    evaluation: string
+  ) {
+    const existingPupil = pupil;
     if (existingPupil) {
-      const existingPupilId = pupils.findIndex(
-        (pupil) => pupil.name === existingPupil.name
+      const existingPupilIndex = pupils.findIndex(
+        (pupil) => pupil.id === existingPupil.id
       );
 
-      // Find category and add new evaluation
       const existingCategory = existingPupil.evaluations.find(
-        (evaluation) => evaluation.category === pupil.category
+        (evaluation) => evaluation.category === category
       );
       if (existingCategory) {
         const existingCategoryId = existingPupil.evaluations.findIndex(
@@ -45,19 +49,19 @@ export default function usePupils(): {
         const newEvaluations = existingPupil.evaluations.slice();
         newEvaluations[existingCategoryId].descriptions = [
           ...newEvaluations[existingCategoryId].descriptions,
-          pupil.evaluation,
+          evaluation,
         ];
+        existingPupil.evaluations = newEvaluations;
       } else {
         existingPupil.evaluations = [
           ...existingPupil.evaluations,
           {
             id: nanoid(),
-            category: pupil.category,
-            descriptions: [pupil.evaluation],
+            category: category,
+            descriptions: [evaluation],
           },
         ];
       }
-
       existingPupil.evaluations.sort((a, b) => {
         const firstCategory = a.category.toLowerCase();
         const secondCategory = b.category.toLowerCase();
@@ -69,25 +73,50 @@ export default function usePupils(): {
         }
         return 0;
       });
-
       const newPupils = pupils.slice();
-      newPupils[existingPupilId] = existingPupil;
+      newPupils[existingPupilIndex] = existingPupil;
       setPupils(newPupils);
+    }
+  }
+
+  function addPupil(pupil: {
+    name: string;
+    category: string;
+    evaluation: string;
+  }) {
+    const existingPupil = findPupilByName(pupil.name);
+    if (existingPupil) {
+      if (pupil.category === '' && pupil.evaluation === '') {
+        return;
+      } else {
+        addEvaluation(existingPupil, pupil.category, pupil.evaluation);
+      }
     } else {
-      setPupils([
-        ...pupils,
-        {
-          id: nanoid(),
-          name: pupil.name,
-          evaluations: [
-            {
-              id: nanoid(),
-              category: pupil.category,
-              descriptions: [pupil.evaluation],
-            },
-          ],
-        },
-      ]);
+      if (pupil.category === '' && pupil.evaluation === '') {
+        setPupils([
+          ...pupils,
+          {
+            id: nanoid(),
+            name: pupil.name,
+            evaluations: [],
+          },
+        ]);
+      } else {
+        setPupils([
+          ...pupils,
+          {
+            id: nanoid(),
+            name: pupil.name,
+            evaluations: [
+              {
+                id: nanoid(),
+                category: pupil.category,
+                descriptions: [pupil.evaluation],
+              },
+            ],
+          },
+        ]);
+      }
     }
   }
 
@@ -114,5 +143,12 @@ export default function usePupils(): {
     }
   }
 
-  return { pupils, findPupilById, addPupil, deletePupil, deleteEvaluation };
+  return {
+    pupils,
+    findPupilById,
+    addEvaluation,
+    addPupil,
+    deletePupil,
+    deleteEvaluation,
+  };
 }
