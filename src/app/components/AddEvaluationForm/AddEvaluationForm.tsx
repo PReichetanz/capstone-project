@@ -3,17 +3,12 @@ import styled from 'styled-components';
 import Navigation from '../Navigation/Navigation';
 
 type FormProps = {
-  onSubmit: (pupil: {
-    name: string;
-    category: string;
-    evaluation: string;
-  }) => void;
+  onSubmit: (pupil: { category: string; evaluation: string }) => void;
   onCancel: () => void;
   missingInput: boolean;
 };
 
 export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
-  const [name, setName] = useState('');
   const [category, setCategory] = useState('');
   const [evaluation, setEvaluation] = useState('');
   const [inputError, setInputError] = useState(false);
@@ -21,20 +16,13 @@ export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (name !== '' && category === '' && evaluation === '') {
-      onSubmit({ name, category, evaluation });
-      setInputError(false);
-      setName('');
-      setEvaluation('');
-      return;
-    }
-    if (name === '' || category === '' || evaluation === '') {
+    if (category === '' || evaluation === '') {
       setInputError(true);
       return;
     } else {
-      onSubmit({ name, category, evaluation });
+      onSubmit({ category, evaluation });
       setInputError(false);
-      setName('');
+      setCategory('');
       setEvaluation('');
     }
   }
@@ -42,18 +30,6 @@ export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
   return (
     <FormWrapper>
       <FormContainer onSubmit={handleSubmit}>
-        <label htmlFor="name">Name des Schülers:</label>
-        <Input
-          type="text"
-          id="name"
-          placeholder="Lena Beispiel"
-          onChange={(event) => setName(event.target.value)}
-          value={name}
-          missingInput={inputError}
-        />
-        {inputError && name === '' && (
-          <SubmitWarning>Bitte geben Sie einen Namen ein.</SubmitWarning>
-        )}
         <label htmlFor="category">Kategorie wählen:</label>
         <Input
           type="text"
