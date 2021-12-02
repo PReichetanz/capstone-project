@@ -7,5 +7,5 @@ export default {
 };
 
 export const Regular = (): JSX.Element => (
-  <CopyButton copyData={() => console.log('clicked!')} />
+  <CopyButton copyText={'hello there!'} />
 );
