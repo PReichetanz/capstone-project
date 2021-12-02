@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
+import AddEvaluationForm from '../../components/AddEvaluationForm/AddEvaluationForm';
 import EvaluationCard from '../../components/EvaluationCard/EvaluationCard';
 import Header from '../../components/Header/Header';
 import Navigation from '../../components/Navigation/Navigation';
 import usePupils from '../../hooks/usePupils';
 
 export default function PupilOverview(): JSX.Element {
+  const [isFormShown, setIsFormShown] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams<string>();
-  const { deleteEvaluation, findPupilById } = usePupils();
+  const { addEvaluation, deleteEvaluation, findPupilById } = usePupils();
   const currentPupil = findPupilById(id);
+
+  function handleFormSubmit(pupil: { category: string; evaluation: string }) {
+    addEvaluation(currentPupil, pupil.category, pupil.evaluation);
+    setIsFormShown(false);
+  }
 
   return (
     <Container>
@@ -18,6 +25,13 @@ export default function PupilOverview(): JSX.Element {
         <>
           <Header>{currentPupil.name}</Header>
           <Main>
+            {isFormShown && (
+              <AddEvaluationForm
+                onSubmit={handleFormSubmit}
+                missingInput={false}
+                onCancel={() => setIsFormShown(false)}
+              />
+            )}
             {currentPupil.evaluations.map((evaluation) => (
               <EvaluationCard
                 key={evaluation.id}
@@ -29,6 +43,7 @@ export default function PupilOverview(): JSX.Element {
           </Main>
           <Navigation
             isFormNavigation={false}
+            showForm={() => setIsFormShown(true)}
             navigateButton={true}
             navigateBack={() => navigate('/')}
           ></Navigation>{' '}
