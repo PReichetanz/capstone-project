@@ -1,15 +1,12 @@
 import { nanoid } from 'nanoid';
-import type { Pupil } from '../types/types';
+import handleInput from '../components/utils/normalizeInput';
+import type { Pupil, PupilName, RawInput } from '../types/types';
 import useLocalStorage from './useLocalStorage';
 
 export default function usePupils(): {
   pupils: Pupil[];
   findPupilById: (id: string | undefined) => Pupil | undefined;
-  addPupil: (pupil: {
-    name: string;
-    category: string;
-    evaluation: string;
-  }) => void;
+  addPupil: (pupil: RawInput) => void;
   addEvaluation: (
     pupil: Pupil | undefined,
     newCategory: string,
@@ -24,8 +21,13 @@ export default function usePupils(): {
     return pupils.find((pupil) => pupil.id === id);
   }
 
-  function findPupilByName(name: string) {
-    return pupils.find((pupil) => pupil.name === name);
+  function findPupilByName(name: PupilName) {
+    return pupils.find(
+      (pupil) =>
+        pupil.name.first === name.first &&
+        pupil.name.middle === name.middle &&
+        pupil.name.last === name.last
+    );
   }
 
   function addEvaluation(
@@ -79,12 +81,9 @@ export default function usePupils(): {
     }
   }
 
-  function addPupil(pupil: {
-    name: string;
-    category: string;
-    evaluation: string;
-  }) {
-    const existingPupil = findPupilByName(pupil.name);
+  function addPupil(pupil: RawInput) {
+    const normalizedPupil = handleInput(pupil);
+    const existingPupil = findPupilByName(normalizedPupil.name);
     if (existingPupil) {
       if (pupil.category === '' && pupil.evaluation === '') {
         return;
@@ -97,7 +96,7 @@ export default function usePupils(): {
           ...pupils,
           {
             id: nanoid(),
-            name: pupil.name,
+            name: normalizedPupil.name,
             evaluations: [],
           },
         ]);
@@ -106,7 +105,7 @@ export default function usePupils(): {
           ...pupils,
           {
             id: nanoid(),
-            name: pupil.name,
+            name: normalizedPupil.name,
             evaluations: [
               {
                 id: nanoid(),
