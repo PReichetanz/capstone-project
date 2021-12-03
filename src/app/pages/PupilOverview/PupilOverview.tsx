@@ -48,7 +48,7 @@ export default function PupilOverview(): JSX.Element {
     <Container>
       {currentPupil ? (
         <>
-          <Header>{currentPupil.name}</Header>
+          <Header>{`${currentPupil.name.first} ${currentPupil.name.middle} ${currentPupil.name.last}`}</Header>
           <Main>
             {isFormShown && (
               <AddEvaluationForm

@@ -6,18 +6,14 @@ import CopyButton from '../../components/CopyButton/CopyButton';
 import Form from '../../components/Form/Form';
 import Header from '../../components/Header/Header';
 import usePupils from '../../hooks/usePupils';
-import type { Evaluation, Pupil } from '../../types/types';
+import type { Evaluation, Pupil, RawInput } from '../../types/types';
 
 export default function ClassOverview(): JSX.Element {
   const { pupils, addPupil, deletePupil } = usePupils();
   const [isFormShown, setIsFormShown] = useState(false);
   const dataToCopy = getTextToCopy(pupils);
 
-  function handleFormSubmit(pupil: {
-    name: string;
-    category: string;
-    evaluation: string;
-  }) {
+  function handleFormSubmit(pupil: RawInput) {
     addPupil(pupil);
     setIsFormShown(false);
   }
@@ -61,8 +57,8 @@ export default function ClassOverview(): JSX.Element {
             onCancel={() => setIsFormShown(false)}
           />
         )}
-        {pupils.map((pupil, key) => (
-          <Card key={key} pupil={pupil} deleteCard={deletePupil} />
+        {pupils.map((pupil) => (
+          <Card key={pupil.id} pupil={pupil} deleteCard={deletePupil} />
         ))}
         {pupils.length === 0 ? '' : <CopyButton copyText={dataToCopy} />}
       </Main>
