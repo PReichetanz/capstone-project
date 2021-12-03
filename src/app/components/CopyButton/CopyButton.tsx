@@ -31,13 +31,22 @@ export default function CopyButton({ copyText }: CopyButtonProps): JSX.Element {
   };
 
   return (
-    <CopyToClipboardButton onClick={handleCopyClick}>
-      <span>
-        {isCopied ? 'Beurteilungen kopiert' : 'Beurteilungen kopieren'}
-      </span>
-    </CopyToClipboardButton>
+    <>
+      <Breakline />
+      <CopyToClipboardButton onClick={handleCopyClick}>
+        <span>
+          {isCopied ? 'Beurteilungen kopiert' : 'Beurteilungen kopieren'}
+        </span>
+      </CopyToClipboardButton>
+    </>
   );
 }
+
+const Breakline = styled.hr`
+  width: 80%;
+  border-top: 3px double var(--color-stroke);
+  height: 0.25rem;
+`;
 
 const CopyToClipboardButton = styled(Button)`
   width: 50%;

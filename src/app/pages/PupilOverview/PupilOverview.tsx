@@ -70,10 +70,7 @@ export default function PupilOverview(): JSX.Element {
             {currentPupil.evaluations.length === 0 ? (
               ''
             ) : (
-              <>
-                <Breakline />
-                <CopyButton copyText={dataToCopy} />
-              </>
+              <CopyButton copyText={dataToCopy} />
             )}
           </Main>
           <Navigation
@@ -89,12 +86,6 @@ export default function PupilOverview(): JSX.Element {
     </Container>
   );
 }
-
-const Breakline = styled.hr`
-  width: 80%;
-  border-top: 3px double var(--color-stroke);
-  height: 0.25rem;
-`;
 
 const Container = styled.div`
   height: 100vh;
