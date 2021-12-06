@@ -4,20 +4,19 @@ export default function handleInput(pupil: RawInput): NormalizedInput {
   const preparedName = prepareNormalisation(pupil.name);
   const firstName = preparedName[0];
   const middleName =
-    preparedName.length < 2 ? '' : preparedName.slice(1, -1).join(' ');
+    preparedName.length <= 2 ? null : preparedName.slice(1, -1).join(' ');
   const lastName =
     preparedName.length === 1
-      ? ''
+      ? null
       : preparedName[preparedName.length - 1].toLowerCase();
 
-  const category = pupil.category;
-  const evaluation = pupil.evaluation;
+  const { category, evaluation } = pupil;
 
   const normalizedPupil = {
     name: {
       first: normalizeInput(firstName),
-      middle: middleName !== '' ? normalizeInput(middleName) : '',
-      last: lastName !== '' ? normalizeInput(lastName) : '',
+      middle: middleName !== null ? normalizeInput(middleName) : '',
+      last: lastName !== null ? normalizeInput(lastName) : '',
     },
     category: category,
     evaluation: evaluation,
@@ -64,6 +63,5 @@ function normalizeInput(input: string) {
     inputToNormalize = replacedWhitespace;
     return inputToNormalize;
   }
-  const normalizedInput = toUpperCaseWhitespace(inputToNormalize, 0);
-  return normalizedInput;
+  return toUpperCaseWhitespace(inputToNormalize, 0);
 }
