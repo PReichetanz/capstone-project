@@ -4,6 +4,8 @@ import styled from 'styled-components';
 type ButtonProps = {
   children: ReactNode;
   onClick?: () => void;
+  category?: string;
+  selectedCategory?: string;
 };
 
 const Button = styled.button<ButtonProps>`

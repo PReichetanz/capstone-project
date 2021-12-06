@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
-import AddEvaluationForm from '../../components/AddCategoryForm/AddCategoryForm';
+import AddEvaluationForm from '../../components/AddEvaluationForm/AddEvaluationForm';
 import CopyButton from '../../components/CopyButton/CopyButton';
 import EvaluationCard from '../../components/EvaluationCard/EvaluationCard';
 import Header from '../../components/Header/Header';
@@ -52,6 +52,7 @@ export default function PupilOverview(): JSX.Element {
           <Main>
             {isFormShown && (
               <AddEvaluationForm
+                pupil={currentPupil}
                 onSubmit={handleFormSubmit}
                 missingInput={false}
                 onCancel={() => setIsFormShown(false)}
