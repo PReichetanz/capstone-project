@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Rating } from 'react-simple-star-rating';
 import styled from 'styled-components';
 import Navigation from '../Navigation/Navigation';
 
@@ -10,13 +11,18 @@ type FormProps = {
 
 export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
   const [category, setCategory] = useState('');
+  const [rating, setRating] = useState(0);
   const [evaluation, setEvaluation] = useState('');
   const [inputError, setInputError] = useState(false);
+
+  function handleRating(rate: number) {
+    setRating(rate);
+  }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (category === '' || evaluation === '') {
+    if (category === '' || rating === 0 || evaluation === '') {
       setInputError(true);
       return;
     } else {
@@ -41,6 +47,20 @@ export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
         />
         {inputError && category === '' && (
           <SubmitWarning>Bitte geben Sie eine Kategorie ein.</SubmitWarning>
+        )}
+        <label>
+          Bewertung wählen:
+          <Rating
+            onClick={handleRating}
+            ratingValue={rating}
+            size={40}
+            transition
+            fillColor={`var(--color-button)`}
+            emptyColor="gray"
+          />
+        </label>
+        {inputError && rating === 0 && (
+          <SubmitWarning>Bitte geben Sie eine Bewertung an.</SubmitWarning>
         )}
         <label htmlFor="evaluation">Worturteil:</label>
         <Textarea
