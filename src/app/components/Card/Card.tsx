@@ -18,7 +18,7 @@ export default function Card({ pupil, deleteCard }: CardProps): JSX.Element {
         handleClick={() => deleteCard(pupil.id)}
       />
       <CardLink to={`/pupil/${pupil.id}`}>
-        <Heading>{name}</Heading>
+        <Heading>{`${name.first} ${name.middle} ${name.last}`}</Heading>
         {evaluations.map((evaluation, key) => (
           <span key={key}>
             {evaluation.descriptions

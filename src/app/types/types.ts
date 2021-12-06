@@ -4,8 +4,30 @@ export type Evaluation = {
   descriptions: string[];
 };
 
+export type NormalizedInput = {
+  name: {
+    first: string;
+    middle: string | null;
+    last: string | null;
+  };
+  category: string;
+  evaluation: string;
+};
+
 export type Pupil = {
   id: string;
-  name: string;
+  name: PupilName;
   evaluations: Evaluation[];
+};
+
+export type PupilName = {
+  first: string;
+  middle: string | null;
+  last: string | null;
+};
+
+export type RawInput = {
+  name: string;
+  category: string;
+  evaluation: string;
 };
