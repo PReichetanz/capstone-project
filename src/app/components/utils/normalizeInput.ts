@@ -50,11 +50,11 @@ function normalizeInput(input: string) {
     );
   }
   if (indexOfHyphen > 0) {
-    const whitespaceInput = inputToNormalize.replace(
+    const replacedHyphens = inputToNormalize.replace(
       inputToNormalize[indexOfHyphen - 1],
       ' '
     );
-    const upperCaseName = toUpperCaseWhitespace(whitespaceInput, indexOfHyphen);
+    const upperCaseName = toUpperCaseWhitespace(replacedHyphens, indexOfHyphen);
     const firstLetterUpperCase = toUpperCaseWhitespace(upperCaseName, 0);
     const replacedWhitespace = firstLetterUpperCase.replace(
       firstLetterUpperCase[indexOfHyphen - 1],
