@@ -3,7 +3,11 @@ import Card from './Card';
 
 const testPupil = {
   id: 'hdnehdnae',
-  name: 'Lena Beispiel',
+  name: {
+    first: 'Lena',
+    middle: 'Maria',
+    last: 'Beispiel',
+  },
   evaluations: [
     {
       id: '29dndje',
@@ -17,7 +21,11 @@ const testPupil = {
 
 const moreEvaluations = {
   id: 'kdnejdke123',
-  name: 'Lena Beispiel',
+  name: {
+    first: 'Lena',
+    middle: 'Maria',
+    last: 'Beispiel',
+  },
   evaluations: [
     {
       id: 'kdje828',
