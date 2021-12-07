@@ -97,7 +97,7 @@ export default function AddEvaluationForm({
                           onClick={() =>
                             setSelectedEvaluation(setName(description))
                           }
-                          isActive={description === selectedEvaluation}
+                          isActive={setName(description) === selectedEvaluation}
                         >
                           {setName(description)}
                         </EvaluationButton>
