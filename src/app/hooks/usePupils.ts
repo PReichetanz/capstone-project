@@ -1,12 +1,12 @@
 import { nanoid } from 'nanoid';
 import handleInput from '../components/utils/normalizeInput';
-import type { Pupil, PupilName, RawInput } from '../types/types';
+import type { Pupil, PupilName } from '../types/types';
 import useLocalStorage from './useLocalStorage';
 
 export default function usePupils(): {
   pupils: Pupil[];
   findPupilById: (id: string | undefined) => Pupil | undefined;
-  addPupil: (pupil: RawInput) => void;
+  addPupil: (name: string) => void;
   addEvaluation: (
     pupil: Pupil | undefined,
     newCategory: string,
@@ -81,41 +81,20 @@ export default function usePupils(): {
     }
   }
 
-  function addPupil(pupil: RawInput) {
-    const normalizedPupil = handleInput(pupil);
+  function addPupil(name: string) {
+    const normalizedPupil = handleInput(name);
     const existingPupil = findPupilByName(normalizedPupil.name);
     if (existingPupil) {
-      if (pupil.category === '' && pupil.evaluation === '') {
-        return;
-      } else {
-        addEvaluation(existingPupil, pupil.category, pupil.evaluation);
-      }
+      return;
     } else {
-      if (pupil.category === '' && pupil.evaluation === '') {
-        setPupils([
-          ...pupils,
-          {
-            id: nanoid(),
-            name: normalizedPupil.name,
-            evaluations: [],
-          },
-        ]);
-      } else {
-        setPupils([
-          ...pupils,
-          {
-            id: nanoid(),
-            name: normalizedPupil.name,
-            evaluations: [
-              {
-                id: nanoid(),
-                category: pupil.category,
-                descriptions: [pupil.evaluation],
-              },
-            ],
-          },
-        ]);
-      }
+      setPupils([
+        ...pupils,
+        {
+          id: nanoid(),
+          name: normalizedPupil.name,
+          evaluations: [],
+        },
+      ]);
     }
   }
 
