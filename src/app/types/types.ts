@@ -1,3 +1,20 @@
+export type DefaultEvaluation = {
+  name: string;
+  evaluations: { mark: number; descriptions: string[] }[];
+};
+
+export type DefaultEvaluations = [
+  {
+    name: string;
+    evaluations: [
+      {
+        mark: number;
+        descriptions: string[];
+      }
+    ];
+  }
+];
+
 export type Evaluation = {
   id: string;
   category: string;
