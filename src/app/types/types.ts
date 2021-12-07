@@ -45,6 +45,4 @@ export type PupilName = {
 
 export type RawInput = {
   name: string;
-  category: string;
-  evaluation: string;
 };

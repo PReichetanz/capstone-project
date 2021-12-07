@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
 import CopyButton from '../../components/CopyButton/CopyButton';
-import Form from '../../components/Form/Form';
+import Form from '../../components/AddPupilForm/AddPupilForm';
 import Header from '../../components/Header/Header';
 import usePupils from '../../hooks/usePupils';
 import type { Evaluation, Pupil, RawInput } from '../../types/types';

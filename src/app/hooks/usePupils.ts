@@ -85,37 +85,16 @@ export default function usePupils(): {
     const normalizedPupil = handleInput(pupil);
     const existingPupil = findPupilByName(normalizedPupil.name);
     if (existingPupil) {
-      if (pupil.category === '' && pupil.evaluation === '') {
-        return;
-      } else {
-        addEvaluation(existingPupil, pupil.category, pupil.evaluation);
-      }
+      return;
     } else {
-      if (pupil.category === '' && pupil.evaluation === '') {
-        setPupils([
-          ...pupils,
-          {
-            id: nanoid(),
-            name: normalizedPupil.name,
-            evaluations: [],
-          },
-        ]);
-      } else {
-        setPupils([
-          ...pupils,
-          {
-            id: nanoid(),
-            name: normalizedPupil.name,
-            evaluations: [
-              {
-                id: nanoid(),
-                category: pupil.category,
-                descriptions: [pupil.evaluation],
-              },
-            ],
-          },
-        ]);
-      }
+      setPupils([
+        ...pupils,
+        {
+          id: nanoid(),
+          name: normalizedPupil.name,
+          evaluations: [],
+        },
+      ]);
     }
   }
 
