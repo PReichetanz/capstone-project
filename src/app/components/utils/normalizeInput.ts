@@ -1,7 +1,7 @@
-import type { NormalizedInput, RawInput } from '../../types/types';
+import type { NormalizedInput } from '../../types/types';
 
-export default function handleInput(pupil: RawInput): NormalizedInput {
-  const preparedName = prepareNormalisation(pupil.name);
+export default function handleInput(name: string): NormalizedInput {
+  const preparedName = prepareNormalisation(name);
   const firstName = preparedName[0];
   const middleName =
     preparedName.length <= 2 ? null : preparedName.slice(1, -1).join(' ');
@@ -10,16 +10,12 @@ export default function handleInput(pupil: RawInput): NormalizedInput {
       ? null
       : preparedName[preparedName.length - 1].toLowerCase();
 
-  const { category, evaluation } = pupil;
-
   const normalizedPupil = {
     name: {
       first: normalizeInput(firstName),
       middle: middleName !== null ? normalizeInput(middleName) : '',
       last: lastName !== null ? normalizeInput(lastName) : '',
     },
-    category: category,
-    evaluation: evaluation,
   };
   return normalizedPupil;
 }

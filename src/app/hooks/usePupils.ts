@@ -1,12 +1,12 @@
 import { nanoid } from 'nanoid';
 import handleInput from '../components/utils/normalizeInput';
-import type { Pupil, PupilName, RawInput } from '../types/types';
+import type { Pupil, PupilName } from '../types/types';
 import useLocalStorage from './useLocalStorage';
 
 export default function usePupils(): {
   pupils: Pupil[];
   findPupilById: (id: string | undefined) => Pupil | undefined;
-  addPupil: (pupil: RawInput) => void;
+  addPupil: (name: string) => void;
   addEvaluation: (
     pupil: Pupil | undefined,
     newCategory: string,
@@ -81,8 +81,8 @@ export default function usePupils(): {
     }
   }
 
-  function addPupil(pupil: RawInput) {
-    const normalizedPupil = handleInput(pupil);
+  function addPupil(name: string) {
+    const normalizedPupil = handleInput(name);
     const existingPupil = findPupilByName(normalizedPupil.name);
     if (existingPupil) {
       return;

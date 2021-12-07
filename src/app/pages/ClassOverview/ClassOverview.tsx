@@ -3,18 +3,18 @@ import styled from 'styled-components';
 import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
 import CopyButton from '../../components/CopyButton/CopyButton';
-import Form from '../../components/AddPupilForm/AddPupilForm';
+import AddPupilForm from '../../components/AddPupilForm/AddPupilForm';
 import Header from '../../components/Header/Header';
 import usePupils from '../../hooks/usePupils';
-import type { Evaluation, Pupil, RawInput } from '../../types/types';
+import type { Evaluation, Pupil } from '../../types/types';
 
 export default function ClassOverview(): JSX.Element {
   const { pupils, addPupil, deletePupil } = usePupils();
   const [isFormShown, setIsFormShown] = useState(false);
   const dataToCopy = getTextToCopy(pupils);
 
-  function handleFormSubmit(pupil: RawInput) {
-    addPupil(pupil);
+  function handleFormSubmit(name: string) {
+    addPupil(name);
     setIsFormShown(false);
   }
 
@@ -51,7 +51,7 @@ export default function ClassOverview(): JSX.Element {
       <Header>Meine Klasse</Header>
       <Main>
         {isFormShown && (
-          <Form
+          <AddPupilForm
             onSubmit={handleFormSubmit}
             missingInput={false}
             onCancel={() => setIsFormShown(false)}

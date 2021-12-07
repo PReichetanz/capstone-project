@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Navigation from '../Navigation/Navigation';
 
 type FormProps = {
-  onSubmit: (pupil: { name: string }) => void;
+  onSubmit: (name: string) => void;
   onCancel: () => void;
   missingInput: boolean;
 };
@@ -19,7 +19,7 @@ export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
       setInputError(true);
       return;
     } else {
-      onSubmit({ name });
+      onSubmit(name);
       setInputError(false);
       setName('');
     }

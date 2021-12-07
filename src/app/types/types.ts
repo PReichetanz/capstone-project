@@ -27,8 +27,6 @@ export type NormalizedInput = {
     middle: string | null;
     last: string | null;
   };
-  category: string;
-  evaluation: string;
 };
 
 export type Pupil = {
@@ -41,8 +39,4 @@ export type PupilName = {
   first: string;
   middle: string | null;
   last: string | null;
-};
-
-export type RawInput = {
-  name: string;
 };
