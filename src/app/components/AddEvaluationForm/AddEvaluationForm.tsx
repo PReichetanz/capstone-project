@@ -24,12 +24,6 @@ export default function AddEvaluationForm({
   const [rating, setRating] = useState(0);
   const [inputError, setInputError] = useState(false);
   console.log(evaluations);
-  console.log(selectedCategory);
-
-  console.log(selectedEvaluation);
-  console.log(rating);
-
-  //const selectedEvaluation = evaluation;
 
   function handleRating(rate: number) {
     setRating(rate);
@@ -53,6 +47,10 @@ export default function AddEvaluationForm({
       setSelectedCategory('');
       setSelectedEvaluation('');
     }
+  }
+
+  function setName(description: string) {
+    return description.replace('X', pupil.name.first);
   }
 
   return (
@@ -96,10 +94,12 @@ export default function AddEvaluationForm({
                         <EvaluationButton
                           key={`${description}-${key}`}
                           type="button"
-                          onClick={() => setSelectedEvaluation(description)}
+                          onClick={() =>
+                            setSelectedEvaluation(setName(description))
+                          }
                           isActive={description === selectedEvaluation}
                         >
-                          {description}
+                          {setName(description)}
                         </EvaluationButton>
                       ))
                     : ''
