@@ -21,12 +21,11 @@ export default function AddEvaluationForm({
   const { evaluations } = useEvaluations();
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedEvaluation, setSelectedEvaluation] = useState('');
-  const [rating, setRating] = useState(0);
+  const [selectedRating, setSelectedRating] = useState(0);
   const [inputError, setInputError] = useState(false);
-  console.log(evaluations);
 
   function handleRating(rate: number) {
-    setRating(rate);
+    setSelectedRating(rate);
   }
 
   function handleCategory(category: string) {
@@ -36,17 +35,21 @@ export default function AddEvaluationForm({
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (selectedCategory === '' || rating === 0 || selectedEvaluation === '') {
+    if (
+      selectedCategory === '' ||
+      selectedRating === 0 ||
+      selectedEvaluation === ''
+    ) {
       setInputError(true);
       return;
-    } else {
-      const category = selectedCategory;
-      const evaluation = selectedEvaluation;
-      onSubmit(category, evaluation);
-      setInputError(false);
-      setSelectedCategory('');
-      setSelectedEvaluation('');
     }
+    const category = selectedCategory;
+    const evaluation = selectedEvaluation;
+    onSubmit(category, evaluation);
+    setInputError(false);
+    setSelectedCategory('');
+    setSelectedEvaluation('');
+    setSelectedRating(0);
   }
 
   function setName(description: string) {
@@ -74,23 +77,23 @@ export default function AddEvaluationForm({
         <label>Bewertung wählen:</label>
         <Rating
           onClick={handleRating}
-          ratingValue={rating}
+          ratingValue={selectedRating}
           size={40}
           transition
           fillColor={`var(--color-button)`}
           emptyColor="gray"
         />
 
-        {inputError && rating === 0 && (
+        {inputError && selectedRating === 0 && (
           <SubmitWarning>Bitte geben Sie eine Bewertung an.</SubmitWarning>
         )}
         <label htmlFor="evaluation">Worturteil:</label>
         {selectedCategory &&
           evaluations.map((evaluation) =>
             evaluation.name === selectedCategory
-              ? evaluation.evaluations.map((evaluation) =>
-                  evaluation.mark === rating
-                    ? evaluation.descriptions.map((description, key) => (
+              ? evaluation.valuations.map((valuation) =>
+                  valuation.mark === selectedRating
+                    ? valuation.descriptions.map((description, key) => (
                         <EvaluationButton
                           key={`${description}-${key}`}
                           type="button"

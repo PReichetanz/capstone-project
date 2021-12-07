@@ -1,7 +1,7 @@
 const defaultEvaluations = [
   {
     name: 'Arbeiten in der Gruppe',
-    evaluations: [
+    valuations: [
       {
         mark: 20,
         descriptions: [
@@ -41,7 +41,7 @@ const defaultEvaluations = [
   },
   {
     name: 'Arbeitsweise',
-    evaluations: [
+    valuations: [
       {
         mark: 20,
         descriptions: [
@@ -81,7 +81,7 @@ const defaultEvaluations = [
   },
   {
     name: 'Sozialverhalten',
-    evaluations: [
+    valuations: [
       {
         mark: 20,
         descriptions: [
@@ -121,7 +121,7 @@ const defaultEvaluations = [
   },
   {
     name: 'Verhalten gegenüber dem Lehrer',
-    evaluations: [
+    valuations: [
       {
         mark: 20,
         descriptions: [

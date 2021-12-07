@@ -1,12 +1,12 @@
 export type DefaultEvaluation = {
   name: string;
-  evaluations: { mark: number; descriptions: string[] }[];
+  valuations: { mark: number; descriptions: string[] }[];
 };
 
 export type DefaultEvaluations = [
   {
     name: string;
-    evaluations: [
+    valuations: [
       {
         mark: number;
         descriptions: string[];
