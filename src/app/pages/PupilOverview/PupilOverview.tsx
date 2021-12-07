@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
-import AddEvaluationForm from '../../components/AddCategoryForm/AddCategoryForm';
+import AddEvaluationForm from '../../components/AddEvaluationForm/AddEvaluationForm';
 import CopyButton from '../../components/CopyButton/CopyButton';
 import EvaluationCard from '../../components/EvaluationCard/EvaluationCard';
 import Header from '../../components/Header/Header';
@@ -17,8 +17,8 @@ export default function PupilOverview(): JSX.Element {
   const currentPupil = findPupilById(id);
   const dataToCopy = getTextToCopy(currentPupil);
 
-  function handleFormSubmit(pupil: { category: string; evaluation: string }) {
-    addEvaluation(currentPupil, pupil.category, pupil.evaluation);
+  function handleFormSubmit(category: string, evaluation: string) {
+    addEvaluation(currentPupil, category, evaluation);
     setIsFormShown(false);
   }
 
@@ -52,6 +52,7 @@ export default function PupilOverview(): JSX.Element {
           <Main>
             {isFormShown && (
               <AddEvaluationForm
+                pupil={currentPupil}
                 onSubmit={handleFormSubmit}
                 missingInput={false}
                 onCancel={() => setIsFormShown(false)}
