@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Rating } from 'react-simple-star-rating';
 import styled from 'styled-components';
+import useEvaluations from '../../hooks/useEvaluations';
 import type { Pupil } from '../../types/types';
 import Button from '../Button/Button';
 import Navigation from '../Navigation/Navigation';
-import defaultEvaluations from '../utils/DefaultEvaluations';
 
 type AddEvaluationFormProps = {
   pupil: Pupil;
-  onSubmit: (pupil: { category: string; evaluation: string }) => void;
+  onSubmit: (category: string, evaluation: string) => void;
   onCancel: () => void;
   missingInput: boolean;
 };
@@ -18,16 +18,18 @@ export default function AddEvaluationForm({
   onSubmit,
   onCancel,
 }: AddEvaluationFormProps): JSX.Element {
-  const standardEvaluations = defaultEvaluations;
+  const { evaluations } = useEvaluations();
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedEvaluation, setSelectedEvaluation] = useState('');
   const [rating, setRating] = useState(0);
-  const [evaluation, setEvaluation] = useState('');
   const [inputError, setInputError] = useState(false);
+  console.log(evaluations);
   console.log(selectedCategory);
-  console.log(standardEvaluations);
-  console.log(evaluation);
 
-  const selectedEvaluation = evaluation;
+  console.log(selectedEvaluation);
+  console.log(rating);
+
+  //const selectedEvaluation = evaluation;
 
   function handleRating(rate: number) {
     setRating(rate);
@@ -40,15 +42,16 @@ export default function AddEvaluationForm({
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (selectedCategory === '' || rating === 0 || evaluation === '') {
+    if (selectedCategory === '' || rating === 0 || selectedEvaluation === '') {
       setInputError(true);
       return;
     } else {
       const category = selectedCategory;
-      onSubmit({ category, evaluation });
+      const evaluation = selectedEvaluation;
+      onSubmit(category, evaluation);
       setInputError(false);
       setSelectedCategory('');
-      setEvaluation('');
+      setSelectedEvaluation('');
     }
   }
 
@@ -56,7 +59,7 @@ export default function AddEvaluationForm({
     <FormWrapper>
       <FormContainer onSubmit={handleSubmit}>
         <label htmlFor="category">Kategorie wählen:</label>
-        {standardEvaluations.map((evaluation, key) => (
+        {evaluations.map((evaluation, key) => (
           <CategoryButton
             key={`${evaluation.name}-${key}`}
             children={evaluation.name}
@@ -70,23 +73,22 @@ export default function AddEvaluationForm({
         {inputError && selectedCategory === '' && (
           <SubmitWarning>Bitte geben Sie eine Kategorie ein.</SubmitWarning>
         )}
-        <label>
-          Bewertung wählen:
-          <Rating
-            onClick={handleRating}
-            ratingValue={rating}
-            size={40}
-            transition
-            fillColor={`var(--color-button)`}
-            emptyColor="gray"
-          />
-        </label>
+        <label>Bewertung wählen:</label>
+        <Rating
+          onClick={handleRating}
+          ratingValue={rating}
+          size={40}
+          transition
+          fillColor={`var(--color-button)`}
+          emptyColor="gray"
+        />
+
         {inputError && rating === 0 && (
           <SubmitWarning>Bitte geben Sie eine Bewertung an.</SubmitWarning>
         )}
         <label htmlFor="evaluation">Worturteil:</label>
         {selectedCategory &&
-          standardEvaluations.map((evaluation) =>
+          evaluations.map((evaluation) =>
             evaluation.name === selectedCategory
               ? evaluation.evaluations.map((evaluation) =>
                   evaluation.mark === rating
@@ -94,9 +96,8 @@ export default function AddEvaluationForm({
                         <EvaluationButton
                           key={`${description}-${key}`}
                           type="button"
-                          onClick={() => setEvaluation(description)}
-                          description={description}
-                          selectedDescription={selectedEvaluation}
+                          onClick={() => setSelectedEvaluation(description)}
+                          isActive={description === selectedEvaluation}
                         >
                           {description}
                         </EvaluationButton>
@@ -105,17 +106,7 @@ export default function AddEvaluationForm({
                 )
               : ''
           )}
-        {/* <Textarea
-          id="evaluation"
-          rows={3}
-          placeholder="Lena arbeitet häufig gut mit."
-          onChange={(event: {
-            target: { value: React.SetStateAction<string> };
-          }) => setEvaluation(event.target.value)}
-          value={evaluation}
-          missingInput={inputError}
-        /> */}
-        {inputError && evaluation === '' && (
+        {inputError && selectedEvaluation === '' && (
           <SubmitWarning>Bitte geben Sie eine Beurteilung ein.</SubmitWarning>
         )}
         <Navigation navigateBack={() => onCancel()} isFormNavigation={true} />
@@ -127,11 +118,6 @@ export default function AddEvaluationForm({
 interface CategoryButton {
   category: string;
   selectedCategory: string;
-}
-
-interface EvaluationButton {
-  description: string;
-  selectedDescription: string;
 }
 
 const CategoryButton = styled(Button).attrs<CategoryButton>((props) => ({
@@ -147,15 +133,11 @@ const CategoryButton = styled(Button).attrs<CategoryButton>((props) => ({
   }
 `;
 
-const EvaluationButton = styled.button.attrs<EvaluationButton>((props) => ({
-  description: props.description,
-  selectedDescription: props.selectedDescription,
-}))`
+const EvaluationButton = styled.button<{ isActive: boolean }>`
   background: inherit;
   color: inherit;
   border: none;
-  font-weight: ${(props) =>
-    props.description === props.selectedDescription ? '800' : '400'};
+  font-weight: ${(props) => (props.isActive ? '800' : '400')};
   &:hover {
     font-weight: 800;
   }
@@ -181,18 +163,6 @@ const FormContainer = styled.form`
 
 const FormWrapper = styled.div`
   position: relative;
-`;
-
-const Textarea = styled.textarea<Partial<AddEvaluationFormProps>>`
-  font-family: inherit;
-  font-weight: 700;
-  background: var(--color-background-dark);
-  color: var(--color-text-white);
-  padding: 0.5rem;
-  outline: ${(props) =>
-    props.missingInput && props.value === ''
-      ? '2px solid var(--color-tertiary)'
-      : ''};
 `;
 
 const SubmitWarning = styled.span`

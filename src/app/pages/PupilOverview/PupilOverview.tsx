@@ -17,8 +17,8 @@ export default function PupilOverview(): JSX.Element {
   const currentPupil = findPupilById(id);
   const dataToCopy = getTextToCopy(currentPupil);
 
-  function handleFormSubmit(pupil: { category: string; evaluation: string }) {
-    addEvaluation(currentPupil, pupil.category, pupil.evaluation);
+  function handleFormSubmit(category: string, evaluation: string) {
+    addEvaluation(currentPupil, category, evaluation);
     setIsFormShown(false);
   }
 
