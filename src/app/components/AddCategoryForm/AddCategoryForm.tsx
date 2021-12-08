@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Navigation from '../Navigation/Navigation';
 
 type FormProps = {
-  onSubmit: (pupil: { category: string; evaluation: string }) => void;
+  onSubmit: (category: string, mark: number, evaluation: string) => void;
   onCancel: () => void;
   missingInput: boolean;
 };
@@ -26,9 +26,10 @@ export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
       setInputError(true);
       return;
     } else {
-      onSubmit({ category, evaluation });
+      onSubmit(category, rating, evaluation);
       setInputError(false);
       setCategory('');
+      setRating(0);
       setEvaluation('');
     }
   }

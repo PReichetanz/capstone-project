@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
 import CopyButton from '../../components/CopyButton/CopyButton';
 import AddPupilForm from '../../components/AddPupilForm/AddPupilForm';
@@ -9,9 +8,11 @@ import usePupils from '../../hooks/usePupils';
 import type { Evaluation, Pupil } from '../../types/types';
 import Navigation from '../../components/Navigation/Navigation';
 import AddCategoryForm from '../../components/AddCategoryForm/AddCategoryForm';
+import useEvaluations from '../../hooks/useEvaluations';
 
 export default function ClassOverview(): JSX.Element {
   const { pupils, addPupil, deletePupil } = usePupils();
+  const { addNewEvaluation } = useEvaluations();
   const [isFormShown, setIsFormShown] = useState(false);
   const [isSettingShown, setIsSettingShown] = useState(false);
   const dataToCopy = getTextToCopy(pupils);
@@ -21,8 +22,15 @@ export default function ClassOverview(): JSX.Element {
     setIsFormShown(false);
   }
 
-  function handleNewCategory() {
-    console.log('new category added');
+  function handleNewCategory(
+    category: string,
+    rating: number,
+    evaluation: string
+  ) {
+    console.log(category);
+    console.log(rating);
+    console.log(evaluation);
+    addNewEvaluation(category, rating, evaluation);
     setIsSettingShown(false);
   }
 
