@@ -49,18 +49,36 @@ export default function useEvaluations(): {
     const existingCategory = evaluations.find(
       (evaluation) => evaluation.name === category
     );
-
-    const newCategory = categoryTemplate;
-    newCategory.name = category;
-    const RatingID = newCategory.valuations.findIndex(
-      (valuation) => valuation.mark === rating
+    const existingCategoryIndex = evaluations.findIndex(
+      (evaluation) => evaluation.name === category
     );
-    const newDescriptions = [
-      ...newCategory.valuations[RatingID].descriptions,
-      evaluation,
-    ];
-    newCategory.valuations[RatingID].descriptions = newDescriptions;
-    setEvaluations([...evaluations, newCategory]);
+
+    if (existingCategory) {
+      const RatingIndex = existingCategory.valuations.findIndex(
+        (valuation) => valuation.mark === rating
+      );
+      const newDescriptions = [
+        ...existingCategory.valuations[RatingIndex].descriptions,
+        evaluation,
+      ];
+      existingCategory.valuations[RatingIndex].descriptions = newDescriptions;
+
+      const newEvaluations = evaluations.slice();
+      newEvaluations[existingCategoryIndex] = existingCategory;
+      setEvaluations(newEvaluations);
+    } else {
+      const newCategory = categoryTemplate;
+      newCategory.name = category;
+      const RatingIndex = newCategory.valuations.findIndex(
+        (valuation) => valuation.mark === rating
+      );
+      const newDescriptions = [
+        ...newCategory.valuations[RatingIndex].descriptions,
+        evaluation,
+      ];
+      newCategory.valuations[RatingIndex].descriptions = newDescriptions;
+      setEvaluations([...evaluations, newCategory]);
+    }
   }
 
   return { evaluations, addNewEvaluation };
