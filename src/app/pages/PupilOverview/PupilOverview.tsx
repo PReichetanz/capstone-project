@@ -10,7 +10,8 @@ import usePupils from '../../hooks/usePupils';
 import type { Pupil } from '../../types/types';
 
 export default function PupilOverview(): JSX.Element {
-  const [isFormShown, setIsFormShown] = useState(false);
+  const [isAddEvaluationFormShown, setIsAddEvaluationFormShown] =
+    useState(false);
   const navigate = useNavigate();
   const { id } = useParams<string>();
   const { addEvaluation, deleteEvaluation, findPupilById } = usePupils();
@@ -19,7 +20,7 @@ export default function PupilOverview(): JSX.Element {
 
   function handleFormSubmit(category: string, evaluation: string) {
     addEvaluation(currentPupil, category, evaluation);
-    setIsFormShown(false);
+    setIsAddEvaluationFormShown(false);
   }
 
   function getTextToCopy(pupil: Pupil | undefined) {
@@ -50,12 +51,12 @@ export default function PupilOverview(): JSX.Element {
         <>
           <Header>{`${currentPupil.name.first} ${currentPupil.name.middle} ${currentPupil.name.last}`}</Header>
           <Main>
-            {isFormShown && (
+            {isAddEvaluationFormShown && (
               <AddEvaluationForm
                 pupil={currentPupil}
                 onSubmit={handleFormSubmit}
                 missingInput={false}
-                onCancel={() => setIsFormShown(false)}
+                onCancel={() => setIsAddEvaluationFormShown(false)}
               />
             )}
             {currentPupil.evaluations.length === 0
@@ -76,7 +77,7 @@ export default function PupilOverview(): JSX.Element {
           </Main>
           <Navigation
             isFormNavigation={false}
-            showForm={() => setIsFormShown(true)}
+            showForm={() => setIsAddEvaluationFormShown(true)}
             navigateButton={true}
             navigateBack={() => navigate('/')}
           ></Navigation>{' '}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Rating } from 'react-simple-star-rating';
 import styled from 'styled-components';
 import Navigation from '../Navigation/Navigation';
@@ -7,13 +7,27 @@ type FormProps = {
   onSubmit: (category: string, mark: number, evaluation: string) => void;
   onCancel: () => void;
   missingInput: boolean;
+  chosenCategory?: string;
+  chosenRating?: number;
 };
 
-export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
+export default function Form({
+  onSubmit,
+  onCancel,
+  chosenCategory,
+  chosenRating,
+}: FormProps): JSX.Element {
   const [category, setCategory] = useState('');
   const [rating, setRating] = useState(0);
   const [evaluation, setEvaluation] = useState('');
   const [inputError, setInputError] = useState(false);
+
+  useEffect(() => {
+    if (chosenCategory && chosenRating) {
+      setCategory(chosenCategory);
+      setRating(chosenRating);
+    }
+  }, [rating]);
 
   function handleRating(rate: number) {
     setRating(rate);
