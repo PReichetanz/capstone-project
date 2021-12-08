@@ -4,6 +4,7 @@ import Button from '../Button/Button';
 
 type NavigationProps = {
   isFormNavigation: boolean;
+  showSettings?: () => void;
   showForm?: () => void;
   navigateButton?: boolean;
   navigateBack?: () => void;
@@ -11,6 +12,7 @@ type NavigationProps = {
 
 export default function Navigation({
   showForm,
+  showSettings,
   navigateButton,
   navigateBack,
   isFormNavigation,
@@ -27,7 +29,7 @@ export default function Navigation({
           </svg>
         </BackButton>
       ) : (
-        ''
+        <Button onClick={showSettings}>Einstellungen</Button>
       )}
       {isFormNavigation ? (
         <Button type="submit">Hinzufügen</Button>

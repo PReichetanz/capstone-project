@@ -7,15 +7,23 @@ import AddPupilForm from '../../components/AddPupilForm/AddPupilForm';
 import Header from '../../components/Header/Header';
 import usePupils from '../../hooks/usePupils';
 import type { Evaluation, Pupil } from '../../types/types';
+import Navigation from '../../components/Navigation/Navigation';
+import AddCategoryForm from '../../components/AddCategoryForm/AddCategoryForm';
 
 export default function ClassOverview(): JSX.Element {
   const { pupils, addPupil, deletePupil } = usePupils();
   const [isFormShown, setIsFormShown] = useState(false);
+  const [isSettingShown, setIsSettingShown] = useState(false);
   const dataToCopy = getTextToCopy(pupils);
 
   function handleFormSubmit(name: string) {
     addPupil(name);
     setIsFormShown(false);
+  }
+
+  function handleNewCategory() {
+    console.log('new category added');
+    setIsSettingShown(false);
   }
 
   function getTextToCopy(pupils: Pupil[] | undefined) {
@@ -57,22 +65,26 @@ export default function ClassOverview(): JSX.Element {
             onCancel={() => setIsFormShown(false)}
           />
         )}
+        {isSettingShown && (
+          <AddCategoryForm
+            onSubmit={handleNewCategory}
+            onCancel={() => setIsSettingShown(false)}
+            missingInput={false}
+          />
+        )}
         {pupils.map((pupil) => (
           <Card key={pupil.id} pupil={pupil} deleteCard={deletePupil} />
         ))}
         {pupils.length === 0 ? '' : <CopyButton copyText={dataToCopy} />}
       </Main>
-      <AddButton onClick={() => setIsFormShown(true)}>
-        Schüler hinzufügen
-      </AddButton>
+      <Navigation
+        isFormNavigation={false}
+        showForm={() => setIsFormShown(true)}
+        showSettings={() => setIsSettingShown(true)}
+      ></Navigation>
     </Container>
   );
 }
-
-const AddButton = styled(Button)`
-  grid-row: 3 / 4;
-  margin-top: 0.5rem;
-`;
 
 const Container = styled.div`
   height: 100vh;
