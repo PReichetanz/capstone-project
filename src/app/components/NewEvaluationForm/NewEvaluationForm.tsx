@@ -54,7 +54,7 @@ export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
           <Rating
             onClick={handleRating}
             ratingValue={rating}
-            size={40}
+            size={30}
             transition
             fillColor={`var(--color-button)`}
             emptyColor="gray"
@@ -63,11 +63,12 @@ export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
         {inputError && rating === 0 && (
           <SubmitWarning>Bitte geben Sie eine Bewertung an.</SubmitWarning>
         )}
-        <label htmlFor="evaluation">Worturteil:</label>
+        <label htmlFor="evaluation">Neues Worturteil:</label>
+        <Note>Hinweis: Ersetzen Sie den Schülernamen mit 'X'.</Note>
         <Textarea
           id="evaluation"
           rows={3}
-          placeholder="Lena arbeitet häufig gut mit."
+          placeholder="Beispiel: X arbeitet häufig gut mit."
           onChange={(event) => setEvaluation(event.target.value)}
           value={evaluation}
           missingInput={inputError}
@@ -114,6 +115,9 @@ const Input = styled.input<Partial<FormProps>>`
       : ''};
 `;
 
+const Note = styled.span`
+  font-size: 0.75rem;
+`;
 const Textarea = styled.textarea<Partial<FormProps>>`
   font-family: inherit;
   font-weight: 700;

@@ -7,7 +7,7 @@ import Header from '../../components/Header/Header';
 import usePupils from '../../hooks/usePupils';
 import type { Evaluation, Pupil } from '../../types/types';
 import Navigation from '../../components/Navigation/Navigation';
-import AddCategoryForm from '../../components/AddCategoryForm/AddCategoryForm';
+import NewEvaluationForm from '../../components/NewEvaluationForm/NewEvaluationForm';
 import useEvaluations from '../../hooks/useEvaluations';
 
 export default function ClassOverview(): JSX.Element {
@@ -74,7 +74,7 @@ export default function ClassOverview(): JSX.Element {
           />
         )}
         {isSettingShown && (
-          <AddCategoryForm
+          <NewEvaluationForm
             onSubmit={handleNewCategory}
             onCancel={() => setIsSettingShown(false)}
             missingInput={false}
