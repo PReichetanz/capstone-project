@@ -1,19 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Rating } from 'react-simple-star-rating';
 import styled from 'styled-components';
 import Navigation from '../Navigation/Navigation';
 
 type FormProps = {
-  onSubmit: (pupil: { category: string; evaluation: string }) => void;
+  onSubmit: (category: string, mark: number, evaluation: string) => void;
   onCancel: () => void;
-  missingInput: boolean;
+  missingInputAfterSubmit: boolean;
+  chosenCategory?: string;
+  chosenRating?: number;
 };
 
-export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
+export default function Form({
+  onSubmit,
+  onCancel,
+  chosenCategory,
+  chosenRating,
+}: FormProps): JSX.Element {
   const [category, setCategory] = useState('');
   const [rating, setRating] = useState(0);
   const [evaluation, setEvaluation] = useState('');
   const [inputError, setInputError] = useState(false);
+
+  useEffect(() => {
+    if (chosenCategory && chosenRating) {
+      setCategory(chosenCategory);
+      setRating(chosenRating);
+    }
+  }, [rating]);
 
   function handleRating(rate: number) {
     setRating(rate);
@@ -26,9 +40,10 @@ export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
       setInputError(true);
       return;
     } else {
-      onSubmit({ category, evaluation });
+      onSubmit(category, rating, evaluation);
       setInputError(false);
       setCategory('');
+      setRating(0);
       setEvaluation('');
     }
   }
@@ -43,7 +58,7 @@ export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
           placeholder="Arbeitsweise"
           onChange={(event) => setCategory(event.target.value)}
           value={category}
-          missingInput={inputError}
+          missingInputAfterSubmit={inputError}
         />
         {inputError && category === '' && (
           <SubmitWarning>Bitte geben Sie eine Kategorie ein.</SubmitWarning>
@@ -53,7 +68,7 @@ export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
           <Rating
             onClick={handleRating}
             ratingValue={rating}
-            size={40}
+            size={30}
             transition
             fillColor={`var(--color-button)`}
             emptyColor="gray"
@@ -62,14 +77,15 @@ export default function Form({ onSubmit, onCancel }: FormProps): JSX.Element {
         {inputError && rating === 0 && (
           <SubmitWarning>Bitte geben Sie eine Bewertung an.</SubmitWarning>
         )}
-        <label htmlFor="evaluation">Worturteil:</label>
+        <label htmlFor="evaluation">Neues Worturteil:</label>
+        <Note>Hinweis: Ersetzen Sie den Schülernamen mit 'X'.</Note>
         <Textarea
           id="evaluation"
           rows={3}
-          placeholder="Lena arbeitet häufig gut mit."
+          placeholder="Beispiel: X arbeitet häufig gut mit."
           onChange={(event) => setEvaluation(event.target.value)}
           value={evaluation}
-          missingInput={inputError}
+          missingInputAfterSubmit={inputError}
         />
         {inputError && evaluation === '' && (
           <SubmitWarning>Bitte geben Sie eine Beurteilung ein.</SubmitWarning>
@@ -108,11 +124,14 @@ const Input = styled.input<Partial<FormProps>>`
   color: var(--color-text-white);
   padding: 0.5rem;
   outline: ${(props) =>
-    props.missingInput && props.value === ''
+    props.missingInputAfterSubmit && props.value === ''
       ? '2px solid var(--color-tertiary)'
       : ''};
 `;
 
+const Note = styled.span`
+  font-size: 0.75rem;
+`;
 const Textarea = styled.textarea<Partial<FormProps>>`
   font-family: inherit;
   font-weight: 700;
@@ -120,7 +139,7 @@ const Textarea = styled.textarea<Partial<FormProps>>`
   color: var(--color-text-white);
   padding: 0.5rem;
   outline: ${(props) =>
-    props.missingInput && props.value === ''
+    props.missingInputAfterSubmit && props.value === ''
       ? '2px solid var(--color-tertiary)'
       : ''};
 `;

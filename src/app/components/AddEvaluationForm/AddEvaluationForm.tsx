@@ -5,12 +5,13 @@ import useEvaluations from '../../hooks/useEvaluations';
 import type { Pupil } from '../../types/types';
 import Button from '../Button/Button';
 import Navigation from '../Navigation/Navigation';
+import NewEvaluationForm from '../NewEvaluationForm/NewEvaluationForm';
 
 type AddEvaluationFormProps = {
   pupil: Pupil;
   onSubmit: (category: string, evaluation: string) => void;
   onCancel: () => void;
-  missingInput: boolean;
+  missingInputAfterSubmit: boolean;
 };
 
 export default function AddEvaluationForm({
@@ -18,7 +19,9 @@ export default function AddEvaluationForm({
   onSubmit,
   onCancel,
 }: AddEvaluationFormProps): JSX.Element {
-  const { evaluations } = useEvaluations();
+  const { evaluations, addNewEvaluation } = useEvaluations();
+  const [isNewEvaluationFormShown, setIsNewEvaluationFormShown] =
+    useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedEvaluation, setSelectedEvaluation] = useState('');
   const [selectedRating, setSelectedRating] = useState(0);
@@ -30,6 +33,15 @@ export default function AddEvaluationForm({
 
   function handleCategory(category: string) {
     setSelectedCategory(category);
+  }
+
+  function handleNewEvaluation(
+    category: string,
+    rating: number,
+    evaluation: string
+  ) {
+    addNewEvaluation(category, rating, evaluation);
+    setIsNewEvaluationFormShown(false);
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -92,8 +104,9 @@ export default function AddEvaluationForm({
           evaluations.map((evaluation) =>
             evaluation.name === selectedCategory
               ? evaluation.valuations.map((valuation) =>
-                  valuation.mark === selectedRating
-                    ? valuation.descriptions.map((description, key) => (
+                  valuation.mark === selectedRating ? (
+                    valuation.descriptions.length > 0 ? (
+                      valuation.descriptions.map((description, key) => (
                         <EvaluationButton
                           key={`${description}-${key}`}
                           type="button"
@@ -105,7 +118,18 @@ export default function AddEvaluationForm({
                           {setName(description)}
                         </EvaluationButton>
                       ))
-                    : ''
+                    ) : (
+                      <EvaluationButton
+                        key="missingEvaluation"
+                        type="button"
+                        onClick={() => setIsNewEvaluationFormShown(true)}
+                      >
+                        Ooops! Noch kein Worturteil vorhanden, neues hinzufügen?
+                      </EvaluationButton>
+                    )
+                  ) : (
+                    ''
+                  )
                 )
               : ''
           )}
@@ -114,6 +138,15 @@ export default function AddEvaluationForm({
         )}
         <Navigation navigateBack={() => onCancel()} isFormNavigation={true} />
       </FormContainer>
+      {isNewEvaluationFormShown && (
+        <NewEvaluationForm
+          onSubmit={handleNewEvaluation}
+          onCancel={() => setIsNewEvaluationFormShown(false)}
+          missingInputAfterSubmit={false}
+          chosenCategory={selectedCategory}
+          chosenRating={selectedRating}
+        />
+      )}
     </FormWrapper>
   );
 }
@@ -136,7 +169,7 @@ const CategoryButton = styled(Button).attrs<CategoryButton>((props) => ({
   }
 `;
 
-const EvaluationButton = styled.button<{ isActive: boolean }>`
+const EvaluationButton = styled.button<{ isActive?: boolean }>`
   background: inherit;
   color: inherit;
   border: none;

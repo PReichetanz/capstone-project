@@ -1,5 +1,5 @@
 import React from 'react';
-import AddCategoryForm from './AddCategoryForm';
+import AddCategoryForm from './NewEvaluationForm';
 
 export default {
   title: 'Component/AddCategoryForm',
@@ -10,7 +10,7 @@ export default {
 export const regular = (): JSX.Element => (
   <AddCategoryForm
     onSubmit={() => console.log('submitted')}
-    missingInput={false}
+    missingInputAfterSubmit={false}
     onCancel={() => console.log('canceled!')}
   />
 );
