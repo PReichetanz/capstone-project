@@ -10,7 +10,7 @@ export default {
 export const regular = (): JSX.Element => (
   <AddCategoryForm
     onSubmit={() => console.log('submitted')}
-    missingInput={false}
+    missingInputAfterSubmit={false}
     onCancel={() => console.log('canceled!')}
   />
 );

@@ -27,9 +27,6 @@ export default function ClassOverview(): JSX.Element {
     rating: number,
     evaluation: string
   ) {
-    console.log(category);
-    console.log(rating);
-    console.log(evaluation);
     addNewEvaluation(category, rating, evaluation);
     setIsSettingShown(false);
   }
@@ -77,7 +74,7 @@ export default function ClassOverview(): JSX.Element {
           <NewEvaluationForm
             onSubmit={handleNewCategory}
             onCancel={() => setIsSettingShown(false)}
-            missingInput={false}
+            missingInputAfterSubmit={false}
           />
         )}
         {pupils.map((pupil) => (

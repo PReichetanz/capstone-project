@@ -27,7 +27,7 @@ export const regular = (): JSX.Element => (
   <AddEvaluationForm
     pupil={pupil}
     onSubmit={() => console.log('submitted')}
-    missingInput={false}
+    missingInputAfterSubmit={false}
     onCancel={() => console.log('canceled!')}
   />
 );

@@ -11,7 +11,7 @@ type AddEvaluationFormProps = {
   pupil: Pupil;
   onSubmit: (category: string, evaluation: string) => void;
   onCancel: () => void;
-  missingInput: boolean;
+  missingInputAfterSubmit: boolean;
 };
 
 export default function AddEvaluationForm({
@@ -26,7 +26,6 @@ export default function AddEvaluationForm({
   const [selectedEvaluation, setSelectedEvaluation] = useState('');
   const [selectedRating, setSelectedRating] = useState(0);
   const [inputError, setInputError] = useState(false);
-  console.log('selectedRating in AddEvaluationForm ' + selectedRating);
 
   function handleRating(rate: number) {
     setSelectedRating(rate);
@@ -143,7 +142,7 @@ export default function AddEvaluationForm({
         <NewEvaluationForm
           onSubmit={handleNewEvaluation}
           onCancel={() => setIsNewEvaluationFormShown(false)}
-          missingInput={false}
+          missingInputAfterSubmit={false}
           chosenCategory={selectedCategory}
           chosenRating={selectedRating}
         />

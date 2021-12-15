@@ -6,7 +6,7 @@ import Navigation from '../Navigation/Navigation';
 type FormProps = {
   onSubmit: (category: string, mark: number, evaluation: string) => void;
   onCancel: () => void;
-  missingInput: boolean;
+  missingInputAfterSubmit: boolean;
   chosenCategory?: string;
   chosenRating?: number;
 };
@@ -58,7 +58,7 @@ export default function Form({
           placeholder="Arbeitsweise"
           onChange={(event) => setCategory(event.target.value)}
           value={category}
-          missingInput={inputError}
+          missingInputAfterSubmit={inputError}
         />
         {inputError && category === '' && (
           <SubmitWarning>Bitte geben Sie eine Kategorie ein.</SubmitWarning>
@@ -85,7 +85,7 @@ export default function Form({
           placeholder="Beispiel: X arbeitet häufig gut mit."
           onChange={(event) => setEvaluation(event.target.value)}
           value={evaluation}
-          missingInput={inputError}
+          missingInputAfterSubmit={inputError}
         />
         {inputError && evaluation === '' && (
           <SubmitWarning>Bitte geben Sie eine Beurteilung ein.</SubmitWarning>
@@ -124,7 +124,7 @@ const Input = styled.input<Partial<FormProps>>`
   color: var(--color-text-white);
   padding: 0.5rem;
   outline: ${(props) =>
-    props.missingInput && props.value === ''
+    props.missingInputAfterSubmit && props.value === ''
       ? '2px solid var(--color-tertiary)'
       : ''};
 `;
@@ -139,7 +139,7 @@ const Textarea = styled.textarea<Partial<FormProps>>`
   color: var(--color-text-white);
   padding: 0.5rem;
   outline: ${(props) =>
-    props.missingInput && props.value === ''
+    props.missingInputAfterSubmit && props.value === ''
       ? '2px solid var(--color-tertiary)'
       : ''};
 `;

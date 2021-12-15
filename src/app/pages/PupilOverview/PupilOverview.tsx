@@ -55,7 +55,7 @@ export default function PupilOverview(): JSX.Element {
               <AddEvaluationForm
                 pupil={currentPupil}
                 onSubmit={handleFormSubmit}
-                missingInput={false}
+                missingInputAfterSubmit={false}
                 onCancel={() => setIsAddEvaluationFormShown(false)}
               />
             )}
