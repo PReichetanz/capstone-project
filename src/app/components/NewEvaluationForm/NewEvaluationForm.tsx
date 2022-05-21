@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Rating } from 'react-simple-star-rating';
+import Rating from '../Rating/Rating';
 import styled from 'styled-components';
 import Navigation from '../Navigation/Navigation';
 
@@ -65,14 +65,7 @@ export default function Form({
         )}
         <label>
           Bewertung wählen:
-          <Rating
-            onClick={handleRating}
-            ratingValue={rating}
-            size={30}
-            transition
-            fillColor={`var(--color-button)`}
-            emptyColor="gray"
-          />
+          <Rating selectedRating={rating} onRatingClick={handleRating} />
         </label>
         {inputError && rating === 0 && (
           <SubmitWarning>Bitte geben Sie eine Bewertung an.</SubmitWarning>
