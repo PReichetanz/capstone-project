@@ -25,8 +25,9 @@ export default function PupilOverview(): JSX.Element {
 
   function getTextToCopy(pupil: Pupil | undefined) {
     let textToCopy = '';
+    console.log(pupil);
     if (pupil) {
-      const name = pupil.name;
+      const name = `${pupil.name.first} ${pupil.name.last}`;
       const evaluations = pupil.evaluations.map((evaluation) => {
         const descriptions = evaluation.descriptions.map((description) => {
           const value = `${description}`;
