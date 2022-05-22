@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Rating } from 'react-simple-star-rating';
+// import { Rating } from 'react-simple-star-rating';
+import Rating from '../Rating/Rating';
 import styled from 'styled-components';
 import useEvaluations from '../../hooks/useEvaluations';
 import type { Pupil } from '../../types/types';
@@ -26,6 +27,11 @@ export default function AddEvaluationForm({
   const [selectedEvaluation, setSelectedEvaluation] = useState('');
   const [selectedRating, setSelectedRating] = useState(0);
   const [inputError, setInputError] = useState(false);
+  console.log('selectedCategory', selectedCategory);
+  console.log('selectedRating', selectedRating);
+  console.log('selectedEvaluation', selectedEvaluation);
+  console.log('inputError:', inputError);
+  console.log('evaluations', evaluations);
 
   function handleRating(rate: number) {
     setSelectedRating(rate);
@@ -87,15 +93,7 @@ export default function AddEvaluationForm({
           <SubmitWarning>Bitte geben Sie eine Kategorie ein.</SubmitWarning>
         )}
         <label>Bewertung wählen:</label>
-        <Rating
-          onClick={handleRating}
-          ratingValue={selectedRating}
-          size={40}
-          transition
-          fillColor={`var(--color-button)`}
-          emptyColor="gray"
-        />
-
+        <Rating selectedRating={selectedRating} onRatingClick={handleRating} />
         {inputError && selectedRating === 0 && (
           <SubmitWarning>Bitte geben Sie eine Bewertung an.</SubmitWarning>
         )}
