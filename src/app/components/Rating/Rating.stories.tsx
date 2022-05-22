@@ -7,5 +7,8 @@ export default {
 };
 
 export const Regular = (): JSX.Element => (
-  <Rating ></Rating>
+  <Rating
+    selectedRating={3}
+    onRatingClick={() => console.log('clicked')}
+  ></Rating>
 );
